@@ -1,9 +1,10 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { AdminHeader } from "../../layouts";
 
 export const AdminRoot = () => {
   return (
     <>
-      <Link to="/">back</Link>
+      <AdminHeader/>
       <main>
         <Outlet />
       </main>

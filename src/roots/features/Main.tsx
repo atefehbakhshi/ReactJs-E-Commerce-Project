@@ -5,7 +5,7 @@ export const MainRoot = () => {
   return (
     <>
       <Header />
-      <main>
+      <main className="min-h-[70vh] sm:min-h-[90vh] ">
         <Outlet />
       </main>
       <Footer />
