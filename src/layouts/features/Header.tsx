@@ -14,8 +14,7 @@ export const Header = () => {
             0
           </span>
         </div>
-
-        <Link to="/admin">
+        <Link to="/admin/login">
           <Icon icon="mdi:user" width="26" />
         </Link>
       </div>
