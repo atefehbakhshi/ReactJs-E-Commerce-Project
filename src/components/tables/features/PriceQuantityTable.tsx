@@ -24,11 +24,16 @@ export const PriceQuantityTable = ({ list }) => {
               <td
                 className="p-1 border"
                 contentEditable="true"
+                suppressContentEditableWarning={true}
                 onBlur={(e) => console.log(e.target.innerText)}
               >
                 {product.price}
               </td>
-              <td className="p-1 border" contentEditable="true">
+              <td
+                className="p-1 border"
+                contentEditable="true"
+                suppressContentEditableWarning={true}
+              >
                 {product.quantity}
               </td>
             </tr>
