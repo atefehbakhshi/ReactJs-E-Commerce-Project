@@ -1,3 +1,32 @@
+import Category from "../../components/category";
+import Slideshow from "../../components/slider";
+
+// slider
+import one from "/img/slider/watch/1.png";
+import two from "/img/slider/watch/2.png";
+import three from "/img/slider/watch/3.png";
+const images = [one, two, three];
+
 export const Watch = () => {
-  return <div>watch</div>;
+  return (
+    <div>
+      <Slideshow images={images} />
+      <main className="px-3 pb-3">
+        <Category
+          path="/watch/women"
+          text="زنانه"
+          icon="icon-park-outline:women"
+          id="1"
+          landing="pruducts"
+        />
+        <Category
+          path="/watch/men"
+          text="مردانه"
+          icon="mdi:face-man-outline"
+          id="2"
+          landing="pruducts"
+        />
+      </main>
+    </div>
+  );
 };

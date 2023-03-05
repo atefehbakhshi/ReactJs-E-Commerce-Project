@@ -2,28 +2,28 @@ import Category from "../../components/category";
 import Slideshow from "../../components/slider";
 
 // slider
-import one from "/img/slider/clothes/1.png";
-import two from "/img/slider/clothes/2.png";
-import three from "/img/slider/clothes/3.png";
+import one from "/img/slider/perfume/1.png";
+import two from "/img/slider/perfume/2.png";
+import three from "/img/slider/perfume/3.png";
 const images = [one, two, three];
 
-export const Clothes = () => {
+export const Perfume = () => {
   return (
     <div>
       <Slideshow images={images} />
       <main className="px-3 pb-3">
         <Category
-          path="/clothes/women"
+          path="/perfume/women"
           text="زنانه"
           icon="icon-park-outline:women"
-          id="7"
+          id="9"
           landing="pruducts"
         />
         <Category
-          path="/clothes/men"
+          path="/perfume/men"
           text="مردانه"
           icon="mdi:face-man-outline"
-          id="8"
+          id="10"
           landing="pruducts"
         />
       </main>
