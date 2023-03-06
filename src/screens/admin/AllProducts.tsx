@@ -1,59 +1,38 @@
+import { useEffect, useState } from "react";
+import {
+  fetchAllProductsDataService,
+  fetchDataByCategoryService,
+} from "../../api/services/get";
 import { Button } from "../../components/buttons";
+import Pagination from "../../components/pagination";
 import { ProductsTable } from "../../components/tables";
-import highHeelTwo from "/img/shoes/women/highHeelTwo.jpg";
 
-const productsList = [
-  {
-    name: "کفش پاشنه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 1,
-    category: 2,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-  {
-    name: "کفش پاشنه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 2,
-    category: 3,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-  {
-    name: "کفش پاشنکفش پاشنه کفش پاشنه   کفش پاشنه ه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 4,
-    category: 3,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-];
+const DATA_PER_PAGE = 5;
+
+const getData = async (page, limit, productCategory) => {
+  let res;
+  if (productCategory === "all") {
+    res = await fetchAllProductsDataService(page, limit);
+  } else {
+    res = await fetchDataByCategoryService(productCategory, page, limit);
+  }
+  return res.data;
+};
 
 export const AllProducts = () => {
+  const [list, setList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [productCategory, setProductCategory] = useState("all");
+
+  const filtredList = (id: string) => {
+    setProductCategory(id);
+    setPage(1);
+  };
+
+  useEffect(() => {
+    getData(page, DATA_PER_PAGE, productCategory).then((res) => setList(res));
+  }, [page, productCategory]);
+
   return (
     <main className="p-3">
       <header className="flex justify-between items-center">
@@ -63,19 +42,19 @@ export const AllProducts = () => {
         </Button>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        <ProductsTable list={productsList} />
+        {list.length === 0 ? (
+          <span className="loader"></span>
+        ) : (
+          <ProductsTable list={list} onFiltredList={filtredList} />
+        )}
       </div>
-      <div className="flex justify-center gap-1">
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          1
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          2
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          3
-        </span>
-      </div>
+      <Pagination
+        page={page}
+        list={list}
+        OnSetPage={(pageNo) => setPage(pageNo)}
+        dataLength={DATA_PER_PAGE}
+      />
+      {/* chart */}
       <div></div>
     </main>
   );

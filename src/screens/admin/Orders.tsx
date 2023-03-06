@@ -1,66 +1,34 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getOrdersDataService } from "../../api/services/get";
+import Pagination from "../../components/pagination";
 import { OrdersTable } from "../../components/tables";
 
-const orderssList = [
-  {
-    username: "پدرام",
-    lastname: "صادقی",
-    address: "تهران میدان آزادی ",
-    phone: "09032855606",
-    expectAt: 1648771200000,
-    products: [
-      {
-        id: 4,
-        name: "MacBook Air MGN63 2020",
-        count: "1",
-        price: "10275000",
-        image: "b7b1754d9e82674138512445576bba26",
-      },
-      {
-        id: 3,
-        name: "MacBook Air MGN63 2020",
-        count: "2",
-        price: "10275000",
-        image: "b7b1754d9e82674138512445576bba26",
-      },
-    ],
-    prices: 10275000,
-    delivered: "false",
-    createdAt: 1646158398160,
-    id: 1,
-  },
-  {
-    username: "پدرام",
-    lastname: "صادقی",
-    address: "تهران میدان آزادی ",
-    phone: "09032855606",
-    expectAt: 1648771200000,
-    products: [
-      {
-        id: 4,
-        name: "MacBook Air MGN63 2020",
-        count: "1",
-        price: "10275000",
-        image: "b7b1754d9e82674138512445576bba26",
-      },
-      {
-        id: 3,
-        name: "MacBook Air MGN63 2020",
-        count: "2",
-        price: "10275000",
-        image: "b7b1754d9e82674138512445576bba26",
-      },
-    ],
-    prices: 10275000,
-    delivered: "false",
-    createdAt: 1646158398160,
-    id: 2,
-  },
-];
+const DATA_PER_PAGE = 2;
+
+const getData = async (ordersDate, page, limit, isDelivered) => {
+  let res;
+  res = await getOrdersDataService(ordersDate, page, limit, isDelivered);
+  return res.data;
+};
 
 export const Orders = () => {
   const [isDelivered, setIsDelivered] = useState(false);
+
+  const [list, setList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [ordersDate, setOrdersDate] = useState("desc");
+
+  const filtredList = (text: string) => {
+    setOrdersDate(text);
+    setPage(1);
+  };
+
+  useEffect(() => {
+    getData(ordersDate, page, DATA_PER_PAGE, isDelivered).then((res) =>
+      setList(res)
+    );
+  }, [page, ordersDate, isDelivered]);
 
   return (
     <main className="p-3">
@@ -98,20 +66,18 @@ export const Orders = () => {
         </div>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        <OrdersTable list={orderssList} />
+        {list.length === 0 ? (
+          <span className="loader"></span>
+        ) : (
+          <OrdersTable list={list} onFiltredList={filtredList} />
+        )}
       </div>
-      <div className="flex justify-center gap-1">
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          1
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          2
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          3
-        </span>
-      </div>
-      <div></div>
+      <Pagination
+        page={page}
+        list={list}
+        OnSetPage={(pageNo) => setPage(pageNo)}
+        dataLength={DATA_PER_PAGE}
+      />
     </main>
   );
 };

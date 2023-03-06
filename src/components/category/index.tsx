@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  fetchMainLandingDataService,
+  fetchDataByCategoryService,
   fetchProductsLandingDataService,
 } from "../../api/services/get";
 import { Button } from "../buttons";
@@ -11,7 +11,7 @@ import Product from "../product/Product";
 const getData = async (id, landing) => {
   let res;
   if (landing === "main") {
-    res = await fetchMainLandingDataService(id, 1, 6);
+    res = await fetchDataByCategoryService(id, 1, 6);
     return res.data;
   }
   if (landing === "pruducts") {

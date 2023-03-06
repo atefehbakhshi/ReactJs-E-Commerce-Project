@@ -1,59 +1,24 @@
+import { useEffect, useState } from "react";
+import { fetchAllProductsDataService } from "../../api/services/get";
 import { Button } from "../../components/buttons";
+import Pagination from "../../components/pagination";
 import { PriceQuantityTable } from "../../components/tables";
-import highHeelTwo from "/img/shoes/women/highHeelTwo.jpg";
 
-const productsList = [
-  {
-    name: "کفش پاشنه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 1,
-    category: 2,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-  {
-    name: "کفش پاشنه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 2,
-    category: 3,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-  {
-    name: "کفش پاشنکفش پاشنه کفش پاشنه   کفش پاشنه ه بلند",
-    brand: "برند تست",
-    image: [
-      "1cb0abd374486a8038b9a8c78e5ed6b8",
-      "99874537d939b76572bdf0fd26470eb3",
-    ],
-    thumbnail: highHeelTwo,
-    price: 10275000,
-    quantity: 8,
-    createdAt: 1643373068134,
-    id: 4,
-    category: 3,
-    subcategory: 1,
-    description: "<p>تستتتتت</p>",
-  },
-];
+const DATA_PER_PAGE = 5;
+
+const getData = async (page, limit) => {
+  const res = await fetchAllProductsDataService(page, limit);
+  return res.data;
+};
 
 export const PriceQuantity = () => {
+  const [list, setList] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    getData(page, DATA_PER_PAGE).then((res) => setList(res));
+  }, [page]);
+
   return (
     <main className="p-3">
       <header className="flex justify-between items-center">
@@ -61,20 +26,18 @@ export const PriceQuantity = () => {
         <Button>ذخیره</Button>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        <PriceQuantityTable list={productsList} />
+        {list.length === 0 ? (
+          <span className="loader"></span>
+        ) : (
+          <PriceQuantityTable list={list} />
+        )}
       </div>
-      <div className="flex justify-center gap-1">
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          1
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          2
-        </span>
-        <span className="bg-gray-200 p-1 text-center border rounded-full w-6 h-6">
-          3
-        </span>
-      </div>
-      <div></div>
+      <Pagination
+        page={page}
+        list={list}
+        OnSetPage={(pageNo) => setPage(pageNo)}
+        dataLength={DATA_PER_PAGE}
+      />
     </main>
   );
 };

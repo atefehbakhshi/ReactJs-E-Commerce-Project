@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export const OrdersTable = ({ list }) => {
+export const OrdersTable = ({ list, onFiltredList }) => {
   let bg = "";
   return (
     <table className=" border border-collapse rounded w-full">
@@ -9,10 +9,14 @@ export const OrdersTable = ({ list }) => {
           <th className="border text-right text-xs w-[15%] px-1">نام کاربر</th>
           <th className="border text-right text-xs w-[55%] px-1">مجموع مبلغ</th>
           <th className="border text-right text-xs w-[15%] px-1">
-            <select name="category" className="bg-gray-400">
+            <select
+              name="category"
+              className="bg-gray-400"
+              onChange={(e) => onFiltredList(e.target.value)}
+            >
               <option className="hidden">زمان ثبت سفارش</option>
-              <option value="watch">جدیدترین</option>
-              <option value="glasses"> قدیمی ترین </option>
+              <option value="desc">جدیدترین</option>
+              <option value="asc"> قدیمی ترین </option>
             </select>
           </th>
           <th className="border text-right text-xs w-[15%] px-1">
@@ -30,9 +34,13 @@ export const OrdersTable = ({ list }) => {
 
           return (
             <tr key={user.id} className={`${bg}`}>
-              <td className="p-1 border">{user.username}</td>
+              <td className="p-1 border">
+                {user.username} {user.lastname}
+              </td>
               <td className="p-1 border">{user.prices}</td>
-              <td className="p-1 border">{user.createdAt}</td>
+              <td className="p-1 border">
+                {new Date(user.createdAt).toLocaleDateString("FA")}
+              </td>
               <td className="p-1 border">
                 <div className="flex justify-center">
                   <Icon
