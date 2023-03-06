@@ -1,5 +1,5 @@
 import Category from "../../components/category";
-import Slideshow from "../../components/slider";
+import {FadeSlider} from "../../components/slider";
 
 import one from "/img/slider/jewellery/1.png";
 import two from "/img/slider/jewellery/2.png";
@@ -10,7 +10,7 @@ const images = [one, two, three];
 export const Jewellery = () => {
   return (
     <div>
-      <Slideshow images={images} />
+      <FadeSlider images={images} />
       <main className="px-3 pb-3">
         <Category
           path="/jewellery/bracelet"

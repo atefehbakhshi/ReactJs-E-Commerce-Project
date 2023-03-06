@@ -20,3 +20,7 @@ export const getOrdersDataService = (order, page, limit, delivered) =>
   instance.get(
     `/orders?_sort=createdAt&_order=${order}&&_page=${page}&_limit=${limit}&&delivered=${delivered}`
   );
+
+// get data by id
+export const fetchDataByIdService = (id: number) =>
+  instance.get(`/products?id=${id}`);

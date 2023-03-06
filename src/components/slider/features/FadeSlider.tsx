@@ -9,7 +9,7 @@ const fadeOutProperties = {
   arrows: true,
 };
 
-const Slideshow = ({ images }) => {
+export const FadeSlider = ({ images }) => {
   return (
     <div className="py-6">
       <Fade {...fadeOutProperties}>
@@ -27,5 +27,3 @@ const Slideshow = ({ images }) => {
     </div>
   );
 };
-
-export default Slideshow;

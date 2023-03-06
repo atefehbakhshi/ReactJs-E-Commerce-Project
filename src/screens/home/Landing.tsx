@@ -1,5 +1,5 @@
 import Category from "../../components/category";
-import Slideshow from "../../components/slider";
+import {FadeSlider} from "../../components/slider";
 import Adds from "../../components/adds";
 
 // slideshow
@@ -11,7 +11,7 @@ const images = [one, two, three];
 export const Landing = () => {
   return (
     <div>
-      <Slideshow images={images} />
+      <FadeSlider images={images} />
       <main className="px-3 pb-3">
         <h1 className="font-bold text-xl mb-4">محصولات</h1>
         <Category
