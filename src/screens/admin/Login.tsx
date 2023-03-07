@@ -1,14 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../api/services";
 import { Button } from "../../components/buttons";
 import Input from "../../components/input";
 
+const authHandler = async (data) => {
+  const res = await loginUser(data);
+  return res;
+};
 export const Login = () => {
   const navigate = useNavigate();
+
+  // ====================
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("first");
-    navigate("/admin/all-products");
+    const { name, password } = e.target;
+    const adminInfo = { username: name.value, password: password.value };
+    authHandler(adminInfo).then((res) => {
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.accessToken);
+        navigate("/admin/all-products");
+      } else {
+        console.log("first");
+      }
+    });
   };
+
+  // ====================
 
   return (
     <div className="flex justify-center py-8 min-h-[100vh] items-center form-container">
