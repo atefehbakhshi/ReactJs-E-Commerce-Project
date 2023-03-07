@@ -1,31 +1,35 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { loginUser } from "../../api/services";
 import { Button } from "../../components/buttons";
 import Input from "../../components/input";
 
 const authHandler = async (data) => {
-  const res = await loginUser(data);
-  return res;
+  try {
+    const res = await loginUser(data);
+    return res;
+  } catch (error) {
+    return error;
+  }
 };
+
 export const Login = () => {
   const navigate = useNavigate();
 
-  // ====================
   const submitHandler = (e) => {
     e.preventDefault();
     const { name, password } = e.target;
     const adminInfo = { username: name.value, password: password.value };
+
     authHandler(adminInfo).then((res) => {
-      if (res.status === 200) {
+      if (res?.status === 200) {
         localStorage.setItem("token", res.data.accessToken);
         navigate("/admin/all-products");
       } else {
-        console.log("first");
+        toast("!!! کاربری با این مشخصات پیدا نشد ");
       }
     });
   };
-
-  // ====================
 
   return (
     <div className="flex justify-center py-8 min-h-[100vh] items-center form-container">

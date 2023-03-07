@@ -4,6 +4,7 @@ import * as home from "../screens/home";
 import * as admin from "../screens/admin";
 import Payment from "../screens/payment";
 import * as categories from "../screens/home/categories";
+import { checkAuthLoader } from "../util/auth";
 
 const router = createBrowserRouter([
   {

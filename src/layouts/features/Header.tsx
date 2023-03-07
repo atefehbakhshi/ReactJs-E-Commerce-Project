@@ -1,11 +1,14 @@
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
+import { getAuthToken } from "../../utile/auth";
+
 import logo from "/img/logo/logo.png";
 
 export const Header = () => {
   const navigate = useNavigate();
+
   const loginHandler = () => {
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     if (token) {
       navigate("/admin/all-products");
     } else {
