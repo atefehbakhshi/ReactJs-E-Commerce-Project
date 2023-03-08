@@ -4,7 +4,7 @@ export {
   fetchDataById,
   fetchOrdersData,
   fetchAllProductsData,
-  fetchProductsLandingData,
+  fetchDataBySubcategory,
   fetchDataByCategory,
 } from "./features/get";
 

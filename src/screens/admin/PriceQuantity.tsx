@@ -1,22 +1,32 @@
 import { useEffect, useState } from "react";
-import { fetchAllProductsDataService } from "../../api/services/get";
+import { fetchAllProductsData } from "../../api/services";
 import { Button } from "../../components/buttons";
+import { EndOfList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { PriceQuantityTable } from "../../components/tables";
 
 const DATA_PER_PAGE = 5;
 
-const getData = async (page, limit) => {
-  const res = await fetchAllProductsDataService(page, limit);
-  return res.data;
+const getData = async (page: number, limit: number) => {
+  const res = await fetchAllProductsData(page, limit);
+  const data = { data: res.data, status: res.status };
+  return data;
 };
 
 export const PriceQuantity = () => {
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
+  const [emptyPage, setEmptyPage] = useState(false);
 
   useEffect(() => {
-    getData(page, DATA_PER_PAGE).then((res) => setList(res));
+    getData(page, DATA_PER_PAGE).then((res) => {
+      if (res.status === 200 && res.data.length === 0) {
+        setEmptyPage(true);
+      } else {
+        setEmptyPage(false);
+      }
+      setList(res.data);
+    });
   }, [page]);
 
   return (
@@ -26,7 +36,9 @@ export const PriceQuantity = () => {
         <Button>ذخیره</Button>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        {list.length === 0 ? (
+        {emptyPage ? (
+          <EndOfList />
+        ) : list.length === 0 ? (
           <span className="loader"></span>
         ) : (
           <PriceQuantityTable list={list} />

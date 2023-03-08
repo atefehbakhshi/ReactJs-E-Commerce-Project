@@ -6,9 +6,9 @@ import logo from "/img/logo/logo.png";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const token = getAuthToken();
 
   const loginHandler = () => {
-    const token = getAuthToken();
     if (token) {
       navigate("/admin/all-products");
     } else {

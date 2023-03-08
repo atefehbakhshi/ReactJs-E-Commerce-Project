@@ -1,45 +1,29 @@
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { loginUser } from "../../api/services";
 import { Button } from "../../components/buttons";
 import Input from "../../components/input";
-
-const authHandler = async (data) => {
-  try {
-    const res = await loginUser(data);
-    return res;
-  } catch (error) {
-    return error;
-  }
-};
+import useAuth from "../../hooks/features/use-auth";
 
 export const Login = () => {
-  const navigate = useNavigate();
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const { name, password } = e.target;
-    const adminInfo = { username: name.value, password: password.value };
-
-    authHandler(adminInfo).then((res) => {
-      if (res?.status === 200) {
-        localStorage.setItem("token", res.data.accessToken);
-        navigate("/admin/all-products");
-      } else {
-        toast("!!! کاربری با این مشخصات پیدا نشد ");
-      }
-    });
-  };
+  const { register, handleSubmit, errors, handleLoginUser } = useAuth();
 
   return (
     <div className="flex justify-center py-8 min-h-[100vh] items-center form-container">
       <form
-        onSubmit={submitHandler}
+        onSubmit={handleSubmit(handleLoginUser)}
         className="flex flex-col gap-8 border max-w-xl mx-auto bg-white p-4 rounded form-shadow"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Input label="نام کاربری" id="name" type="text" />
-          <Input label="رمز عبور" id="password" type="password" />
+          <Input
+            label="نام کاربری"
+            type="text"
+            error={errors.username?.message}
+            validation={{ ...register("username") }}
+          />
+          <Input
+            label="رمز عبور"
+            type="password"
+            error={errors.password?.message}
+            validation={{ ...register("password") }}
+          />
         </div>
         <div>
           <div className="flex flex-col md:w-1/2 md:mx-auto">

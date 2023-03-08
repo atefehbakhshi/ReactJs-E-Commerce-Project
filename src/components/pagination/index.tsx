@@ -1,4 +1,7 @@
-const setPagination = (page, list, dataLength) => {
+import { PaginationI } from "../../type/interface";
+import { PaginationT } from "../../type/type";
+
+const setPagination: PaginationT = (page, list, dataLength) => {
   let paginationList = [];
 
   if (list.length < dataLength) {
@@ -9,12 +12,12 @@ const setPagination = (page, list, dataLength) => {
   return paginationList;
 };
 
-const Pagination = ({ page, list, OnSetPage, dataLength }) => {
+const Pagination = ({ page, list, OnSetPage, dataLength }: PaginationI) => {
   const pagination = setPagination(page, list, dataLength);
 
   return (
     <div className="flex justify-center gap-1">
-      {pagination.map((pageNo, index) => {
+      {pagination.map((pageNo: number, index) => {
         // do not display 0 or less than 0
         if (pageNo <= 0) return;
         // specify selected number

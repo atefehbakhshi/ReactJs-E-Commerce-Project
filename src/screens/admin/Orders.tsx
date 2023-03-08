@@ -1,33 +1,45 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
-import { getOrdersDataService } from "../../api/services/get";
+import { fetchOrdersData } from "../../api/services";
+import { EndOfList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { OrdersTable } from "../../components/tables";
+import { OrdersGetData } from "../../type/type";
 
-const DATA_PER_PAGE = 2;
+const DATA_PER_PAGE = 3;
 
-const getData = async (ordersDate, page, limit, isDelivered) => {
-  let res;
-  res = await getOrdersDataService(ordersDate, page, limit, isDelivered);
-  return res.data;
+const getData: OrdersGetData = async (ordersDate, page, limit, isDelivered) => {
+  const res = await fetchOrdersData(ordersDate, page, limit, isDelivered);
+  const data = { data: res.data, status: res.status };
+  return data;
 };
 
 export const Orders = () => {
   const [isDelivered, setIsDelivered] = useState(false);
-
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
   const [ordersDate, setOrdersDate] = useState("desc");
+  const [emptyPage, setEmptyPage] = useState(false);
 
   const filtredList = (text: string) => {
     setOrdersDate(text);
     setPage(1);
   };
 
+  const deliverHandler = (deliver: boolean) => {
+    setIsDelivered(deliver);
+    setPage(1);
+  };
+
   useEffect(() => {
-    getData(ordersDate, page, DATA_PER_PAGE, isDelivered).then((res) =>
-      setList(res)
-    );
+    getData(ordersDate, page, DATA_PER_PAGE, isDelivered).then((res) => {
+      if (res.status === 200 && res.data.length === 0) {
+        setEmptyPage(true);
+      } else {
+        setEmptyPage(false);
+      }
+      setList(res.data);
+    });
   }, [page, ordersDate, isDelivered]);
 
   return (
@@ -37,7 +49,7 @@ export const Orders = () => {
         <div className="flex gap-2">
           <div
             className="flex items-center gap-1 border-l border-[#afafaf50] px-2"
-            onClick={() => setIsDelivered(false)}
+            onClick={() => deliverHandler(false)}
           >
             {isDelivered ? (
               <Icon icon="material-symbols:circle-outline" color="#525252" />
@@ -51,7 +63,7 @@ export const Orders = () => {
           </div>
           <div
             className="flex items-center gap-1"
-            onClick={() => setIsDelivered(true)}
+            onClick={() => deliverHandler(true)}
           >
             {isDelivered ? (
               <Icon
@@ -66,7 +78,9 @@ export const Orders = () => {
         </div>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        {list.length === 0 ? (
+        {emptyPage ? (
+          <EndOfList />
+        ) : list.length === 0 ? (
           <span className="loader"></span>
         ) : (
           <OrdersTable list={list} onFiltredList={filtredList} />
@@ -75,7 +89,7 @@ export const Orders = () => {
       <Pagination
         page={page}
         list={list}
-        OnSetPage={(pageNo) => setPage(pageNo)}
+        OnSetPage={(pageNo: number) => setPage(pageNo)}
         dataLength={DATA_PER_PAGE}
       />
     </main>
