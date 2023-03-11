@@ -1,7 +1,20 @@
 import { Icon } from "@iconify/react";
+import { useDispatch } from "react-redux";
+import {
+  getUserId,
+  setModalName,
+  setShowModal,
+} from "../../../store/slices/modal-slice";
 
 export const OrdersTable = ({ list, onFiltredList }) => {
-  let bg = "";
+  const dispatch = useDispatch();
+
+  const showOrdersInfo = (id) => {
+    dispatch(setShowModal(true));
+    dispatch(setModalName("ordersInfo"));
+    dispatch(getUserId(id));
+  };
+
   return (
     <table className=" border border-collapse rounded w-full">
       <thead>
@@ -26,20 +39,17 @@ export const OrdersTable = ({ list, onFiltredList }) => {
       </thead>
       <tbody>
         {list.map((user, index) => {
-          if (Math.floor(index % 2) !== 0) {
-            bg = "bg-gray-200";
-          } else {
-            bg = "";
-          }
-
           return (
-            <tr key={user.id} className={`${bg}`}>
+            <tr
+              key={user.id}
+              className={`${Math.floor(index % 2) !== 0 ? "bg-gray-200" : ""}`}
+            >
               <td className="p-1 border">
                 {user.username} {user.lastname}
               </td>
-              <td className="p-1 border">{user.prices}</td>
+              <td className="p-1 border">{user.prices.toLocaleString("fa")}</td>
               <td className="p-1 border">
-                {new Date(user.createdAt).toLocaleDateString("FA")}
+                {new Date(user.createdAt).toLocaleDateString("fa")}
               </td>
               <td className="p-1 border">
                 <div className="flex justify-center">
@@ -47,6 +57,7 @@ export const OrdersTable = ({ list, onFiltredList }) => {
                     icon="material-symbols:check"
                     width="20"
                     color="#525252"
+                    onClick={() => showOrdersInfo(user.id)}
                   />
                 </div>
               </td>

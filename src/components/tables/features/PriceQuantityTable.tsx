@@ -1,5 +1,4 @@
 export const PriceQuantityTable = ({ list }) => {
-  let bg = "";
   return (
     <table className="border border-collapse rounded w-full">
       <thead>
@@ -11,13 +10,11 @@ export const PriceQuantityTable = ({ list }) => {
       </thead>
       <tbody>
         {list.map((product, index) => {
-          if (Math.floor(index % 2) !== 0) {
-            bg = "bg-gray-200";
-          } else {
-            bg = "";
-          }
           return (
-            <tr key={product.id} className={`${bg}`}>
+            <tr
+              key={product.id}
+              className={`${Math.floor(index % 2) !== 0 ? "bg-gray-200" : ""}`}
+            >
               <td className="p-1 border w-3/4">
                 {product.name.substring(0, 30)}
               </td>
@@ -34,7 +31,7 @@ export const PriceQuantityTable = ({ list }) => {
                 contentEditable="true"
                 suppressContentEditableWarning={true}
               >
-                {product.quantity}
+                {product.quantity.toLocaleString("fa")}
               </td>
             </tr>
           );

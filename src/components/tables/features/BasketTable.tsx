@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export const BasketTable = ({ selectedList }) => {
-  let bg = "";
+export const BasketTable = ({ selectedList, location }) => {
   return (
     <table className="border rounded w-full">
       <thead>
@@ -9,24 +8,28 @@ export const BasketTable = ({ selectedList }) => {
           <th className="text-right p-1">محصول</th>
           <th className="text-right">تعداد</th>
           <th className="text-right">قیمت</th>
-          <th className="text-right">حذف</th>
+          {location !== "adminPanel" ? (
+            <th className="text-right">حذف</th>
+          ) : null}
         </tr>
       </thead>
       <tbody>
         {selectedList.map((product, index) => {
-          if (Math.floor(index % 2) !== 0) {
-            bg = "bg-gray-200";
-          } else {
-            bg = "";
-          }
           return (
-            <tr key={product.id} className={`border-b ${bg}`}>
-              <td className="p-1">{product.title}</td>
-              <td>{product.quantity}</td>
-              <td>{product.price}</td>
-              <td>
-                <Icon icon="carbon:trash-can" width="22" color="#525252" />
-              </td>
+            <tr
+              key={product.id}
+              className={`border-b ${
+                Math.floor(index % 2) !== 0 ? "bg-gray-200" : ""
+              }`}
+            >
+              <td className="p-1">{product.name}</td>
+              <td>{product.count.toLocaleString("fa")}</td>
+              <td>{product.price.toLocaleString("fa")}</td>
+              {location !== "adminPanel" ? (
+                <td>
+                  <Icon icon="carbon:trash-can" width="22" color="#525252" />
+                </td>
+              ) : null}
             </tr>
           );
         })}
