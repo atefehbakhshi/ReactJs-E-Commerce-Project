@@ -1,31 +1,26 @@
 import { useEffect, useState } from "react";
 import { fetchAllProductsData } from "../../api/services";
 import { Button } from "../../components/buttons";
-import { EndOfList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { PriceQuantityTable } from "../../components/tables";
+import { PRICE_QUANTITY_PER_PAGE } from "../../constants";
 
-const DATA_PER_PAGE = 5;
+// const [res1, res2] = await Promiss.all([])
 
 const getData = async (page: number, limit: number) => {
   const res = await fetchAllProductsData(page, limit);
-  const data = { data: res.data, status: res.status };
-  return data;
+  return { data: res.data, count: res.headers["x-total-count"] };
 };
 
 export const PriceQuantity = () => {
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
-  const [emptyPage, setEmptyPage] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    getData(page, DATA_PER_PAGE).then((res) => {
-      if (res.status === 200 && res.data.length === 0) {
-        setEmptyPage(true);
-      } else {
-        setEmptyPage(false);
-      }
+    getData(page, PRICE_QUANTITY_PER_PAGE).then((res) => {
       setList(res.data);
+      setCount(res.count);
     });
   }, [page]);
 
@@ -36,9 +31,7 @@ export const PriceQuantity = () => {
         <Button>ذخیره</Button>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        {emptyPage ? (
-          <EndOfList />
-        ) : list.length === 0 ? (
+        {list.length === 0 ? (
           <span className="loader"></span>
         ) : (
           <PriceQuantityTable list={list} />
@@ -46,9 +39,9 @@ export const PriceQuantity = () => {
       </div>
       <Pagination
         page={page}
-        list={list}
+        totalCount={count}
         OnSetPage={(pageNo) => setPage(pageNo)}
-        dataLength={DATA_PER_PAGE}
+        dataPerPage={PRICE_QUANTITY_PER_PAGE}
       />
     </main>
   );

@@ -1,25 +1,17 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
-import { fetchOrdersData } from "../../api/services";
-import { EndOfList } from "../../components/notices";
+import { useDispatch, useSelector } from "react-redux";
+import { EmptyList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { OrdersTable } from "../../components/tables";
-import { OrdersGetData } from "../../type/type";
-
-const DATA_PER_PAGE = 3;
-
-const getData: OrdersGetData = async (ordersDate, page, limit, isDelivered) => {
-  const res = await fetchOrdersData(ordersDate, page, limit, isDelivered);
-  const data = { data: res.data, status: res.status };
-  return data;
-};
+import { getOrdersList } from "../../store/actions/data-actions";
 
 export const Orders = () => {
+  const dispatch = useDispatch();
   const [isDelivered, setIsDelivered] = useState(false);
-  const [list, setList] = useState([]);
-  const [page, setPage] = useState(1);
   const [ordersDate, setOrdersDate] = useState("desc");
-  const [emptyPage, setEmptyPage] = useState(false);
+  const [page, setPage] = useState(1);
+  const { ordersdata } = useSelector((state) => state.data);
 
   const filtredList = (text: string) => {
     setOrdersDate(text);
@@ -32,15 +24,8 @@ export const Orders = () => {
   };
 
   useEffect(() => {
-    getData(ordersDate, page, DATA_PER_PAGE, isDelivered).then((res) => {
-      if (res.status === 200 && res.data.length === 0) {
-        setEmptyPage(true);
-      } else {
-        setEmptyPage(false);
-      }
-      setList(res.data);
-    });
-  }, [page, ordersDate, isDelivered]);
+    dispatch(getOrdersList({ ordersDate, page, isDelivered }));
+  }, [dispatch, page, ordersDate, isDelivered]);
 
   return (
     <main className="p-3">
@@ -78,19 +63,19 @@ export const Orders = () => {
         </div>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        {emptyPage ? (
-          <EndOfList />
-        ) : list.length === 0 ? (
+        {ordersdata.status === "pending" ? (
           <span className="loader"></span>
+        ) : ordersdata.status === "success" && ordersdata.list.length === 0 ? (
+          <EmptyList />
         ) : (
-          <OrdersTable list={list} onFiltredList={filtredList} />
+          <OrdersTable list={ordersdata.list} onFiltredList={filtredList} />
         )}
       </div>
       <Pagination
         page={page}
-        list={list}
+        totalCount={ordersdata.count}
         OnSetPage={(pageNo: number) => setPage(pageNo)}
-        dataLength={DATA_PER_PAGE}
+        dataPerPage={ordersdata.dataPerPage}
       />
     </main>
   );
