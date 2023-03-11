@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-const BasketTable = ({ selectedList }) => {
+export const BasketTable = ({ selectedList }) => {
   let bg = "";
   return (
     <table className="border rounded w-full">
@@ -34,5 +34,3 @@ const BasketTable = ({ selectedList }) => {
     </table>
   );
 };
-
-export default BasketTable;

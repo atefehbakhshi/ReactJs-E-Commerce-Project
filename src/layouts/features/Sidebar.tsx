@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import SidebarLink from "../../components/links/SidebarLink";
+import { SidebarLink } from "../../components/links";
 
 const sidebarStyle = {
   display: "flex",
@@ -52,7 +52,7 @@ export const Sidebar = () => {
   };
 
   const hide = () => {
-    // if click on the each link it jumpes to current page and hide the sidebar
+    // if click on the link it jumpes to current page and hide the sidebar
     if (isMobile) {
       setMenu({ display: "none" });
       setMenuIcon("block");
@@ -61,7 +61,7 @@ export const Sidebar = () => {
 
   return (
     <div>
-      <div className="hidden" style={menu}>
+      <div className="hidden z-[55]" style={menu}>
         <ul className="px-3 py-8">
           <SidebarLink
             mainPath="/watch"
@@ -120,7 +120,7 @@ export const Sidebar = () => {
         </ul>
         <button
           onClick={hide}
-          className="bg-[#dfdfdf] rounded-[50%] text-center p-1 mt-8 md:hidden"
+          className="bg-[#dfdfdf] rounded-[50%] text-center p-1 md:hidden"
         >
           <Icon
             icon="material-symbols:arrow-forward-ios-sharp"

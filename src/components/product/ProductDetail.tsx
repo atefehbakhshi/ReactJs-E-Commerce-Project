@@ -1,51 +1,39 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchDataByIdService } from "../../api/services/get";
 import { Button } from "../buttons";
-import highHeelTwo from "/img/shoes/women/highHeelTwo.jpg";
+import { categoryText, subcategoryText } from "../constants";
+import { SlideSlider } from "../slider";
 
-const product = {
-  id: 1,
-  img: highHeelTwo,
-  title: "کفش پاشنه بلند مدل jgtb",
-  price: 320,
-  description:
-    "fkjgjguitnjfg dfjgkjngvkcmvu  dfjgkjngvkcmvur lllls,vkgfggg ;orijtnrr lllls,vkgfggg ;orijtnrmvc; dof;rdfmgir",
-  category: "shoes",
-  subCategory: "women",
+const getData = async (id) => {
+  const res = await fetchDataByIdService(id);
+  return res.data[0];
 };
 
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(0);
+  const { productId } = useParams();
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    getData(productId).then((res) => setProduct(res));
+  }, [productId]);
+
+  console.log(product);
 
   return (
     <div className="py-8 px-4">
-      <div className="flex flex-col pb-8 md:flex-row gap-4">
-        <div className="max-w-lg mx-auto md:w-[50%]">
-          <img
-            src={product.img}
-            alt={product.title}
-            className="w-[100%] rounded-md"
-          />
-        </div>
+      <div className="flex flex-col pb-8 md:flex-row md:gap-8">
+        <SlideSlider images={product.image} />
         <div className="md:w-[50%] md:py-4">
-          <p className="text-lg mb-4">{product.title}</p>
+          <p className="text-lg mb-4">{product.name}</p>
           <div className="flex gap-4 mb-4">
             <h3 className="text-base font-semibold">گروه محصولات &larr;</h3>
-            <Link
-              to={`/products/${product.category}`}
-              className="cursor-pointer"
-            >
-              کفش &larr;
-            </Link>
-            <Link
-              to={`/products/${product.category}/${product.subCategory}`}
-              className="cursor-pointer"
-            >
-              زنانه
-            </Link>
+            <span>{categoryText[product.category]} &larr;</span>
+            <span>{subcategoryText[product.subcategory]}</span>
           </div>
-          <p className="mb-4">تومان {product.price}</p>
+          <p className="mb-4">{product.price} تومان</p>
           <div>{/* size and color */}</div>
           <div className="flex gap-4">
             <div className="flex justify-between p-1 items-center border rounded">

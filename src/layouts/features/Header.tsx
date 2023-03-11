@@ -1,8 +1,21 @@
 import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuthToken } from "../../utile/auth";
+
 import logo from "/img/logo/logo.png";
 
 export const Header = () => {
+  const navigate = useNavigate();
+  const token = getAuthToken();
+
+  const loginHandler = () => {
+    if (token) {
+      navigate("/admin/all-products");
+    } else {
+      navigate("/admin/login");
+    }
+  };
+
   return (
     <header className="flex justify-between p-3 shadow sticky top-0 z-50 md:px-8">
       <div className="flex gap-2">
@@ -14,10 +27,12 @@ export const Header = () => {
             0
           </span>
         </div>
-
-        <Link to="/admin">
-          <Icon icon="mdi:user" width="26" />
-        </Link>
+        <Icon
+          icon="mdi:user"
+          width="26"
+          onClick={loginHandler}
+          className="cursor-pointer"
+        />
       </div>
       <Link to="/">
         <img src={logo} alt="shicoo" className="w-[5rem]" />
