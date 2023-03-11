@@ -6,6 +6,7 @@ export {
   fetchAllProductsData,
   fetchDataBySubcategory,
   fetchDataByCategory,
+  fetchOrdersDataForCharts,
 } from "./features/get";
 
 export { loginUser } from "./features/post";

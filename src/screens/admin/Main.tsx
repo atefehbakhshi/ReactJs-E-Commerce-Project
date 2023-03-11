@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { instance } from "../../api/constants";
+import { fetchOrdersDataForCharts } from "../../api/services";
 import { OrdersChart } from "../../components/charts";
 
-const fetchOrdersDatw = () => instance.get(`/orders`);
-
 const getData = async () => {
-  const res = await fetchOrdersDatw();
+  const res = await fetchOrdersDataForCharts();
   return res.data;
 };
 
-const assortment = (res) => {
+const assortment = (res: []) => {
   // calculate remain time until 00:00
   const h = (24 - new Date().getHours()) * 60 * 60 * 1000;
   const m = (60 - new Date().getMinutes()) * 60 * 1000;
@@ -28,7 +26,10 @@ const assortment = (res) => {
     sat: [],
   };
 
-  const listOfSevenDaysAgo = res.filter((i) => i.createdAt > sevenDaysAgo);
+  const listOfSevenDaysAgo = res.filter(
+    ({ createdAt }) => createdAt > sevenDaysAgo
+  );
+
   listOfSevenDaysAgo.forEach((i) => {
     switch (new Date(i.createdAt).getDay()) {
       case 0:
@@ -62,19 +63,15 @@ const assortment = (res) => {
 
 const calculateCount = (list) => {
   let totalCount = 0;
-
   list.forEach((i) => {
     i.products.forEach((i) => (totalCount += i.count));
   });
-
   return totalCount;
 };
 
 const calculatePrice = (list) => {
   let totalPrice = 0;
-
   list.forEach((i) => (totalPrice += i.prices));
-
   return totalPrice;
 };
 
