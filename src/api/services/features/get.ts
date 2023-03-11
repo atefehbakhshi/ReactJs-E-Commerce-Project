@@ -26,9 +26,9 @@ export const fetchOrdersData = (
     `/orders?_sort=createdAt&_order=${order}&&_page=${page}&_limit=${limit}&&delivered=${delivered}`
   );
 
-  export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
+export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
 
-  // get product data by id
+// get product data by id
 export const fetchDataById = (id: number) => instance.get(`/products?id=${id}`);
 
 // get user data by id

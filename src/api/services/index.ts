@@ -1,4 +1,4 @@
-export { putUserDataById } from "./features/put";
+export { editUserDataById } from "./features/put";
 export {
   fetchUserDataById,
   fetchDataById,

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   showModal: false,
   modalName: "",
-  userId:0
+  tempId: 0,
 };
 
 const modalSlice = createSlice({
@@ -16,12 +16,12 @@ const modalSlice = createSlice({
     setShowModal: (state, action) => {
       state.showModal = action.payload;
     },
-    getUserId:(state,action)=>{
-      state.userId = action.payload
-    }
+    getId: (state, action) => {
+      state.tempId = action.payload;
+    },
   },
 });
 
-export const { setModalName, setShowModal,getUserId } = modalSlice.actions;
+export const { setModalName, setShowModal, getId } = modalSlice.actions;
 
 export default modalSlice.reducer;
