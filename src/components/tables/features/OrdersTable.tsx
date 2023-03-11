@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
 import {
-  getUserId,
+  getId,
   setModalName,
   setShowModal,
 } from "../../../store/slices/modal-slice";
@@ -12,7 +12,7 @@ export const OrdersTable = ({ list, onFiltredList }) => {
   const showOrdersInfo = (id) => {
     dispatch(setShowModal(true));
     dispatch(setModalName("ordersInfo"));
-    dispatch(getUserId(id));
+    dispatch(getId(id));
   };
 
   return (
