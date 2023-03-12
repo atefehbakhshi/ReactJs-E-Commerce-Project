@@ -1,0 +1,101 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import { addProduct, uploadImage } from "../../api/services/index";
+
+const uploadHandler = async (img) => {
+  let formData = new FormData();
+  formData.append("image", img);
+  const res = await uploadImage(formData);
+  return res.data.filename;
+};
+
+const addProductSchema = yup.object({
+  name: yup.string().required("نام محصول الزامیست ."),
+  image: yup
+    .mixed()
+    .test(
+      "fileNumber",
+      "وارد کردن  تصویر الزامی می باشد.",
+      (files) =>
+        !files || // Check if `files` is defined
+        files.length > 0 // Check if `files` has attachment
+    )
+    .test(
+      "fileSize",
+      "اندازه فایل حداکثر 2 مگابایت می باشد.",
+      (files) =>
+        !files ||
+        files.length === 0 || // Check if `files` is not an empty list
+        Array.from(files).every((file) => file.size <= 2_000_000)
+    ),
+  images: yup
+    .mixed()
+    .test(
+      "fileNumber",
+      "وارد کردن دو تصویر الزامی می باشد.",
+      (files) => !files || files.length === 2 // Check if `files` has more than 1 attachment
+    )
+    .test(
+      "fileSize",
+      "اندازه فایل حداکثر 2 مگابایت می باشد.",
+      (files) =>
+        !files ||
+        files.length === 0 ||
+        Array.from(files).every((file) => file.size <= 2_000_000)
+    ),
+
+  brand: yup.string().required("برند محصول الزامیست ."),
+  price: yup.string().required("قیمت محصول الزامیست .").matches("^[0-9]*$"),
+  quantity: yup.string().required("تعداد محصول الزامیست .").matches("^[0-9]*$"),
+  category: yup.string().required(" دسته بندی محصول الزامیست ."),
+  subCat: yup.string().required(" مشخص کردن زیرمجموعه محصول الزامیست ."),
+  desc: yup.string().required(" توضیحات الزامیست ."),
+});
+
+export const useAddProduct = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(addProductSchema),
+    mode: "onChange",
+  });
+
+  const handleAddProduct = async (data) => {
+    const thumbnail = await uploadHandler(data.image[0]);
+    const firstImage = await uploadHandler(data.images[0]);
+    const secondImage = await uploadHandler(data.images[1]);
+
+    const newProduct = {
+      name: data.name,
+      brand: data.brand,
+      thumbnail: thumbnail,
+      image: [firstImage, secondImage],
+      price: Number(data.price),
+      quantity: Number(data.quantity),
+      category: Number(data.category),
+      subcategory:
+        data.subCat === "1" ? data.category * 2 - 1 : data.category * 2,
+      description: data.desc,
+    };
+
+    try {
+      const res = await addProduct(newProduct);
+      if (res.status === 200) {
+        toast.success(". محصول با موفقیت به لیست اضافه گردید ");
+      }
+    } catch (ex) {
+      toast.error(".محصول به لیست اضافه نگردید، لطفا مجدد تلاش فرمائید ");
+    }
+  };
+
+  return {
+    register,
+    handleSubmit,
+    errors,
+    handleAddProduct,
+  };
+};
