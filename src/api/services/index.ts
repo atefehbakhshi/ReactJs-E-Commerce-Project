@@ -9,4 +9,4 @@ export {
   fetchOrdersDataForCharts,
 } from "./features/get";
 
-export { loginUser } from "./features/post";
+export { loginUser, addProduct, uploadImage } from "./features/post";
