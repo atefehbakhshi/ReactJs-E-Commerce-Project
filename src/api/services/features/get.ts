@@ -2,18 +2,25 @@ import { instance } from "../../constants";
 
 // get products of each category by limit length
 export const fetchDataByCategory = (id: string, page: number, limit: number) =>
-  instance.get(`/products?category=${id}&&_page=${page}&_limit=${limit}`);
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&category=${id}&&_page=${page}&_limit=${limit}`
+  );
 
 // get six products for each category landing page
 export const fetchDataBySubcategory = (
   id: number,
   page: number,
   limit: number
-) => instance.get(`/products?subcategory=${id}&&_page=${page}&_limit=${limit}`);
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&_page=${page}&_limit=${limit}`
+  );
 
 // get all products for admin dashboard
 export const fetchAllProductsData = (page: number, limit: number) =>
-  instance.get(`/products?_page=${page}&_limit=${limit}`);
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&_page=${page}&_limit=${limit}`
+  );
 
 // get orders list
 export const fetchOrdersData = (
