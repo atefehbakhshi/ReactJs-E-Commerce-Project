@@ -8,7 +8,7 @@ const uploadHandler = async (img) => {
   let formData = new FormData();
   formData.append("image", img);
   const res = await uploadImage(formData);
-  return res.data.filename;
+  return { data: res.data.filename, status: res.status };
 };
 
 const addProductSchema = yup.object({
@@ -72,8 +72,8 @@ export const useAddProduct = () => {
     const newProduct = {
       name: data.name,
       brand: data.brand,
-      thumbnail: thumbnail,
-      image: [firstImage, secondImage],
+      thumbnail: thumbnail.data,
+      image: [firstImage.data, secondImage.data],
       price: Number(data.price),
       quantity: Number(data.quantity),
       category: Number(data.category),
@@ -82,13 +82,21 @@ export const useAddProduct = () => {
       description: data.desc,
     };
 
-    try {
-      const res = await addProduct(newProduct);
-      if (res.status === 200) {
-        toast.success(". محصول با موفقیت به لیست اضافه گردید ");
+    if (
+      thumbnail.status === 200 &&
+      firstImage.status === 200 &&
+      secondImage.status === 200
+    ) {
+      try {
+        const res = await addProduct(newProduct);
+        if (res.status === 200) {
+          toast.success(".محصول با موفقیت به لیست اضافه گردید ");
+        }
+      } catch (ex) {
+        toast.error(".محصول به لیست اضافه نگردید، لطفا مجدد تلاش فرمائید ");
       }
-    } catch (ex) {
-      toast.error(".محصول به لیست اضافه نگردید، لطفا مجدد تلاش فرمائید ");
+    } else {
+      toast.error(".مشکلی در اپلود عکس به وجود آمده، لطفا مجدد تلاش فرمائید ");
     }
   };
 
