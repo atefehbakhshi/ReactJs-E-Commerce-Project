@@ -1,6 +1,6 @@
 import { Button } from "../../components/buttons";
 import Input from "../../components/input";
-import useAuth from "../../hooks/features/use-auth";
+import { useAuth } from "../../hooks";
 
 export const Login = () => {
   const { register, handleSubmit, errors, handleLoginUser } = useAuth();
