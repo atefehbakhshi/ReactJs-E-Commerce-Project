@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { addProduct, uploadImage } from "../../api/services/index";
 import { useDispatch } from "react-redux";
 import { setShowModal } from "../../store/slices/modal-slice";
+import { getAllProducts } from "../../store/actions/data-actions";
 
 const uploadHandler = async (img) => {
   let formData = new FormData();
@@ -92,8 +93,13 @@ export const useAddProduct = () => {
     ) {
       try {
         const res = await addProduct(newProduct);
-        if (res.status === 200) {
+        if (res.status === 201) {
           toast.success(".محصول با موفقیت به لیست اضافه گردید ");
+          const required = {
+            page: 1,
+            productCategory: "all",
+          };
+          dispatch(getAllProducts(required));
         }
       } catch (ex) {
         toast.error(".محصول به لیست اضافه نگردید، لطفا مجدد تلاش فرمائید ");
