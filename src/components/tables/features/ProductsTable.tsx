@@ -16,6 +16,12 @@ export const ProductsTable = ({ list, onFiltredList }) => {
     dispatch(getId(id));
   };
 
+  const seEditProductModal = (id) => {
+    dispatch(setShowModal(true));
+    dispatch(setModalName("addNewProduct"));
+    dispatch(getId(id));
+  };
+
   return (
     <table className=" border border-collapse rounded w-full">
       <thead>
@@ -75,6 +81,7 @@ export const ProductsTable = ({ list, onFiltredList }) => {
                     icon="material-symbols:edit"
                     width="20"
                     color="#525252"
+                    onClick={() => seEditProductModal(product.id)}
                   />
                 </div>
               </td>

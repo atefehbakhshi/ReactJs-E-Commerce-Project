@@ -1,13 +1,13 @@
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../../../store/slices/modal-slice";
-import { AddProduct, DeleteProduct, OrdersInfo } from "../index";
+import { AddEditProduct, DeleteProduct, OrdersInfo } from "../index";
 
 const modalList = [
   {
     id: "addNewProduct",
     header: "افزودن / ویرایش",
-    fn: () => <AddProduct />,
+    fn: () => <AddEditProduct />,
   },
   {
     id: "ordersInfo",

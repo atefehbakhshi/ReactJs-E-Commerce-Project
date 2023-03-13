@@ -1,11 +1,16 @@
-import { useState } from "react";
-import { useAddProduct } from "../../../hooks";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { fetchDataById } from "../../../api/services";
+import { useAddEditProduct } from "../../../hooks";
 import { Button } from "../../buttons";
 import Input from "../../input";
 
-export const AddProduct = () => {
+export const AddEditProduct = () => {
+  const [mode, setMode] = useState("add");
   const [subcategory, setSubcategory] = useState(["زنانه", "مردانه"]);
-  const { register, handleSubmit, errors, handleAddProduct } = useAddProduct();
+  const { tempId } = useSelector((state) => state.modal);
+  const { register, handleSubmit, errors, handleAddProduct, reset } =
+    useAddEditProduct(mode);
 
   const categoryHandler = (e) => {
     if (e.target.value === "6") {
@@ -15,9 +20,34 @@ export const AddProduct = () => {
     }
   };
 
+  //  if the form use for editing
+  useEffect(() => {
+    if (tempId !== 0) {
+      setMode(`edit/${tempId}`);
+
+      fetchDataById(tempId).then((res) => {
+        const editedProduct = { ...res.data[0] };
+
+        // last category has difference subcategory name
+        if (res.data[0].subcategory === 11 || res.data[0].subcategory === 12) {
+          setSubcategory(["دستبند", "گردنبند"]);
+        }
+
+        // we save subcategory by 12 number but display to admin just 2 subcategory
+        if (editedProduct.subcategory % 2 === 0) {
+          editedProduct.subcategory = 2;
+        } else {
+          editedProduct.subcategory = 1;
+        }
+
+        reset(editedProduct);
+      });
+    }
+  }, []);
+
   return (
     <form
-      className="flex flex-col gap-8 max-w-xl mx-auto p-4 max-h-[75vh] overflow-y-scroll "
+      className="flex flex-col gap-8 max-w-xl mx-auto p-4 max-h-[75vh] overflow-y-scroll sd:overflow-hidden "
       onSubmit={handleSubmit(handleAddProduct)}
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 ">
@@ -87,7 +117,7 @@ export const AddProduct = () => {
           <select
             id="subcategory"
             className="bg-gray-100 rounded p-2"
-            {...register("subCat")}
+            {...register("subcategory")}
           >
             <option value="" className="hidden"></option>
             {subcategory.map((sub, index) => (
@@ -97,7 +127,7 @@ export const AddProduct = () => {
             ))}
           </select>
           <p className="text-red-400 font-light text-xs">
-            {errors.subCat?.message}
+            {errors.subcategory?.message}
           </p>
         </div>
 
@@ -125,17 +155,23 @@ export const AddProduct = () => {
             id="description"
             rows={5}
             className="bg-gray-100 rounded p-2"
-            {...register("desc")}
+            {...register("description")}
           ></textarea>
           <p className="text-red-400 font-light text-xs">
-            {errors.desc?.message}
+            {errors.description?.message}
           </p>
         </div>
       </div>
       <div className="flex flex-col md:w-1/2 md:mx-auto">
-        <Button bg="bg-[#ade5ad]" hover="hover:bg-[#bdeabd]">
-          ذخیره
-        </Button>
+        {tempId === 0 ? (
+          <Button bg="bg-[#ade5ad]" hover="hover:bg-[#bdeabd]">
+            ذخیره
+          </Button>
+        ) : (
+          <Button bg="bg-[#41c1c6]" hover="hover:bg-[#77e1e5]">
+            ویرایش
+          </Button>
+        )}
       </div>
     </form>
   );

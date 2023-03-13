@@ -2,8 +2,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import { addProduct, uploadImage } from "../../api/services/index";
-import { useDispatch } from "react-redux";
+import {
+  addProduct,
+  editProductDataById,
+  uploadImage,
+} from "../../api/services/index";
+import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../../store/slices/modal-slice";
 import { getAllProducts } from "../../store/actions/data-actions";
 
@@ -12,6 +16,27 @@ const uploadHandler = async (img) => {
   formData.append("image", img);
   const res = await uploadImage(formData);
   return { data: res.data.filename, status: res.status };
+};
+
+const objectCreator = async (data) => {
+  const thumbnail = await uploadHandler(data.image[0]);
+  const firstImage = await uploadHandler(data.images[0]);
+  const secondImage = await uploadHandler(data.images[1]);
+
+  const obj = {
+    name: data.name,
+    brand: data.brand,
+    thumbnail: thumbnail.data,
+    image: [firstImage.data, secondImage.data],
+    price: Number(data.price),
+    quantity: Number(data.quantity),
+    category: Number(data.category),
+    subcategory:
+      data.subcategory === "1" ? data.category * 2 - 1 : data.category * 2,
+    description: data.description,
+  };
+
+  return obj;
 };
 
 const addProductSchema = yup.object({
@@ -53,13 +78,15 @@ const addProductSchema = yup.object({
   price: yup.string().required("قیمت محصول الزامیست .").matches("^[0-9]*$"),
   quantity: yup.string().required("تعداد محصول الزامیست .").matches("^[0-9]*$"),
   category: yup.string().required(" دسته بندی محصول الزامیست ."),
-  subCat: yup.string().required(" مشخص کردن زیرمجموعه محصول الزامیست ."),
-  desc: yup.string().required(" توضیحات الزامیست ."),
+  subcategory: yup.string().required(" مشخص کردن زیرمجموعه محصول الزامیست ."),
+  description: yup.string().required(" توضیحات الزامیست ."),
 });
 
-export const useAddProduct = () => {
+export const useAddEditProduct = (mode) => {
   const dispatch = useDispatch();
+  const { allProducts } = useSelector((state) => state.data);
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -69,30 +96,11 @@ export const useAddProduct = () => {
   });
 
   const handleAddProduct = async (data) => {
-    const thumbnail = await uploadHandler(data.image[0]);
-    const firstImage = await uploadHandler(data.images[0]);
-    const secondImage = await uploadHandler(data.images[1]);
+    const product = await objectCreator(data);
 
-    const newProduct = {
-      name: data.name,
-      brand: data.brand,
-      thumbnail: thumbnail.data,
-      image: [firstImage.data, secondImage.data],
-      price: Number(data.price),
-      quantity: Number(data.quantity),
-      category: Number(data.category),
-      subcategory:
-        data.subCat === "1" ? data.category * 2 - 1 : data.category * 2,
-      description: data.desc,
-    };
-
-    if (
-      thumbnail.status === 200 &&
-      firstImage.status === 200 &&
-      secondImage.status === 200
-    ) {
+    if (mode === "add") {
       try {
-        const res = await addProduct(newProduct);
+        const res = await addProduct(product);
         if (res.status === 201) {
           toast.success(".محصول با موفقیت به لیست اضافه گردید ");
           const required = {
@@ -105,12 +113,28 @@ export const useAddProduct = () => {
         toast.error(".محصول به لیست اضافه نگردید، لطفا مجدد تلاش فرمائید ");
       }
     } else {
-      toast.error(".مشکلی در اپلود عکس به وجود آمده، لطفا مجدد تلاش فرمائید ");
+      const productId = Number(mode.split("/")[1]);
+      try {
+        const res = await editProductDataById(productId, product);
+
+        if (res.status === 200) {
+          toast.success(".مشخصات  با موفقیت ویرایش گردید ");
+          const required = {
+            page: allProducts.page,
+            productCategory: allProducts.productCategory,
+          };
+          dispatch(getAllProducts(required));
+        }
+      } catch (ex) {
+        toast.error(".ویرایش اطلاعات ناموفق بود، لطفا مجدد تلاش فرمائید ");
+      }
     }
+
     dispatch(setShowModal(false));
   };
 
   return {
+    reset,
     register,
     handleSubmit,
     errors,

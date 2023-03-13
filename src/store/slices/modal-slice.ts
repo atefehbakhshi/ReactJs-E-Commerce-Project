@@ -15,6 +15,9 @@ const modalSlice = createSlice({
     },
     setShowModal: (state, action) => {
       state.showModal = action.payload;
+      if (action.payload === false) {
+        state.tempId = 0;
+      }
     },
     getId: (state, action) => {
       state.tempId = action.payload;
