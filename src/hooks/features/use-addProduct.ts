@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { addProduct, uploadImage } from "../../api/services/index";
+import { useDispatch } from "react-redux";
+import { setShowModal } from "../../store/slices/modal-slice";
 
 const uploadHandler = async (img) => {
   let formData = new FormData();
@@ -55,6 +57,7 @@ const addProductSchema = yup.object({
 });
 
 export const useAddProduct = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -98,6 +101,7 @@ export const useAddProduct = () => {
     } else {
       toast.error(".مشکلی در اپلود عکس به وجود آمده، لطفا مجدد تلاش فرمائید ");
     }
+    dispatch(setShowModal(false));
   };
 
   return {
