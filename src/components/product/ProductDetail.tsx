@@ -25,6 +25,12 @@ const ProductDetail = () => {
     getData(productId).then((res) => setProduct(res));
   }, [productId]);
 
+  useEffect(() => {
+    if (count === product.quantity) {
+      toast.warn(`تعداد موجودی در انبار  ${count} عدد می باشد.`);
+    }
+  }, [count]);
+
   const addToBasket = (product) => {
     const newOrderList = list.filter((i) => i.id !== product.id);
     const order = {
