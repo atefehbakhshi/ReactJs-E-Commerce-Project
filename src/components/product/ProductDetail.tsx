@@ -1,26 +1,29 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchDataByIdService } from "../../api/services/get";
+import { toast } from "react-toastify";
+import { fetchDataById } from "../../api/services";
+import { addOrderProduct } from "../../store/slices/order-slice";
 import { Button } from "../buttons";
 import { categoryText, subcategoryText } from "../constants";
 import { SlideSlider } from "../slider";
 
 const getData = async (id) => {
-  const res = await fetchDataByIdService(id);
+  const res = await fetchDataById(id);
   return res.data[0];
 };
 
 const ProductDetail = () => {
-  const [quantity, setQuantity] = useState(0);
-  const { productId } = useParams();
+  const [count, setcount] = useState(0);
   const [product, setProduct] = useState([]);
+  const dispatch = useDispatch();
+  const { productId } = useParams();
+  const { list } = useSelector((state) => state.order);
 
   useEffect(() => {
     getData(productId).then((res) => setProduct(res));
   }, [productId]);
-
-  console.log(product);
 
   return (
     <div className="py-8 px-4">
@@ -33,20 +36,37 @@ const ProductDetail = () => {
             <span>{categoryText[product.category]} &larr;</span>
             <span>{subcategoryText[product.subcategory]}</span>
           </div>
-          <p className="mb-4">{product.price} تومان</p>
+          <p className="mb-4">
+            {product.price?.toLocaleString("fa")} هزار تومان
+          </p>
           <div>{/* size and color */}</div>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <div className="flex justify-between p-1 items-center border rounded">
               <Icon
                 icon="material-symbols:arrow-drop-down-rounded"
                 width="24"
+                className="cursor-pointer"
+                onClick={() => count > 0 && setcount(count - 1)}
               />
-              <span>{quantity}</span>
-              <Icon icon="material-symbols:arrow-drop-up-rounded" width="24" />
+              <span>{count}</span>
+              <Icon
+                icon="material-symbols:arrow-drop-up-rounded"
+                width="24"
+                className="cursor-pointer"
+                onClick={() => count < product.quantity && setcount(count + 1)}
+              />
             </div>
-            <Button bg="bg-[#ade5ad]" hover="hover:bg-[#bdeabd]">
-              افزودن به سبد خرید
-            </Button>
+            {product.quantity === 0 ? (
+              <p className="text-red-500 text-base">اتمام موجودی</p>
+            ) : (
+              <Button
+                bg="bg-[#ade5ad]"
+                hover="hover:bg-[#bdeabd]"
+                disabled={count === 0 ? true : false}
+              >
+                افزودن به سبد خرید
+              </Button>
+            )}
           </div>
         </div>
       </div>
