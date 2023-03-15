@@ -25,6 +25,19 @@ const ProductDetail = () => {
     getData(productId).then((res) => setProduct(res));
   }, [productId]);
 
+  const addToBasket = (product) => {
+    const newOrderList = list.filter((i) => i.id !== product.id);
+    const order = {
+      id: product.id,
+      name: product.name,
+      count: count,
+      price: product.price,
+      image: product.thumbnail,
+    };
+    newOrderList.push(order);
+    dispatch(addOrderProduct(newOrderList));
+  };
+
   return (
     <div className="py-8 px-4">
       <div className="flex flex-col pb-8 md:flex-row md:gap-8">
@@ -62,6 +75,7 @@ const ProductDetail = () => {
               <Button
                 bg="bg-[#ade5ad]"
                 hover="hover:bg-[#bdeabd]"
+                onClick={() => addToBasket(product)}
                 disabled={count === 0 ? true : false}
               >
                 افزودن به سبد خرید
