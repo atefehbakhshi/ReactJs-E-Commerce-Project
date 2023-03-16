@@ -2,20 +2,22 @@ import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  fetchDataByCategoryService,
-  fetchProductsLandingDataService,
-} from "../../api/services/get";
+  fetchDataByCategory,
+  fetchDataBySubcategory,
+} from "../../api/services";
 import { Button } from "../buttons";
 import Product from "../product/Product";
+
+const DATA_LIMIT = 6;
 
 const getData = async (id, landing) => {
   let res;
   if (landing === "main") {
-    res = await fetchDataByCategoryService(id, 1, 6);
+    res = await fetchDataByCategory(id, 1, 6);
     return res.data;
   }
   if (landing === "pruducts") {
-    res = await fetchProductsLandingDataService(id);
+    res = await fetchDataBySubcategory(id, 1, DATA_LIMIT);
     return res.data;
   }
   return [];
