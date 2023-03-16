@@ -1,6 +1,6 @@
 import Category from "../../components/category";
-import {FadeSlider} from "../../components/slider";
 import Adds from "../../components/adds";
+import { FadeSlider } from "../../components/slider";
 
 // slideshow
 import one from "/img/slider/shoes/1.png";
