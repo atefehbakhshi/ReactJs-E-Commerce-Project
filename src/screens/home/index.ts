@@ -3,7 +3,6 @@ export { Watch } from "./Watch";
 export { Glasses } from "./Glasses";
 export { Clothes } from "./Clothes";
 export { Jewellery } from "./Jewellery";
-export { PersonalAppliance } from "./PersonalAppliance";
 export { Shoes } from "./Shoes";
 export { Product } from "./Product";
 export { Basket } from "./Basket";
