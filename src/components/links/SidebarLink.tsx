@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { LinkParams } from "../../type/interface";
+import { SidebarLinkParams } from "../../type/interface";
 
-const SidebarLink: FC<LinkParams> = ({
+export const SidebarLink: FC<SidebarLinkParams> = ({
   mainPath,
   firstSubPath,
   secondSubPath,
@@ -13,15 +13,17 @@ const SidebarLink: FC<LinkParams> = ({
 }) => {
   return (
     <li>
-      <Link to={`/products${mainPath}`} className="font-bold">
-        {mainText}
-      </Link>
-      <ul className="px-5 pb-3 text-sm">
+      <div className="flex items-center gap-1">
+        <Link to={`/products${mainPath}`} className="font-bold">
+          {mainText}
+        </Link>
+      </div>
+      <ul className="px-8 pb-3 text-sm">
         <li onClick={menuHandler}>
           <NavLink
             to={`/products${mainPath}${firstSubPath}`}
             className={({ isActive }) =>
-              isActive ? "text-red-300 text-lg" : undefined
+              isActive ? "text-[#41c1c6] text-lg" : undefined
             }
           >
             {firstText}
@@ -31,7 +33,7 @@ const SidebarLink: FC<LinkParams> = ({
           <NavLink
             to={`/products${mainPath}${secondSubPath}`}
             className={({ isActive }) =>
-              isActive ? "text-red-300 text-lg" : undefined
+              isActive ? "text-[#41c1c6] text-lg" : undefined
             }
           >
             {secondText}
@@ -41,5 +43,3 @@ const SidebarLink: FC<LinkParams> = ({
     </li>
   );
 };
-
-export default SidebarLink;
