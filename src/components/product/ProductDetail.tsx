@@ -90,7 +90,10 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <p>{product.description}</p>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: product.description }}
+      ></div>
     </div>
   );
 };
