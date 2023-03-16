@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import Category from "../../components/category";
-import {FadeSlider} from "../../components/slider";
+import { FadeSlider } from "../../components/slider";
 
 import one from "/img/slider/jewellery/1.png";
 import two from "/img/slider/jewellery/2.png";
@@ -8,6 +9,10 @@ import three from "/img/slider/jewellery/3.png";
 const images = [one, two, three];
 
 export const Jewellery = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <FadeSlider images={images} />

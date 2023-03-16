@@ -1,14 +1,19 @@
 import Category from "../../components/category";
-import {FadeSlider} from "../../components/slider";
 import Adds from "../../components/adds";
+import { FadeSlider } from "../../components/slider";
 
 // slideshow
 import one from "/img/slider/shoes/1.png";
 import two from "/img/slider/perfume/1.png";
 import three from "/img/slider/watch/3.png";
+import { useEffect } from "react";
 const images = [one, two, three];
 
 export const Landing = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <div>
       <FadeSlider images={images} />
