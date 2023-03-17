@@ -6,7 +6,7 @@ export const fetchDataByCategory = (id: string, page: number, limit: number) =>
     `/products?_sort=createdAt&_order=desc&&category=${id}&&_page=${page}&_limit=${limit}`
   );
 
-// get six products for each category landing page
+// get  products for each subCategory page by limit length
 export const fetchDataBySubcategory = (
   id: number,
   page: number,
@@ -41,3 +41,15 @@ export const fetchDataById = (id: number) => instance.get(`/products?id=${id}`);
 // get user data by id
 export const fetchUserDataById = (id: number) =>
   instance.get(`/orders?id=${id}`);
+
+// get  products for each subCategory page by sorting date or price
+export const fetchFiltredData = (
+  id: number,
+  page: number,
+  limit: number,
+  filterType: string,
+  text: string
+) =>
+  instance.get(
+    `/products?_sort=${filterType}&_order=${text}&&subcategory=${id}&&_page=${page}&_limit=${limit}`
+  );

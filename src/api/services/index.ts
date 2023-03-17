@@ -1,12 +1,3 @@
-export { editUserDataById, editProductDataById } from "./features/put";
-export {
-  fetchUserDataById,
-  fetchDataById,
-  fetchOrdersData,
-  fetchAllProductsData,
-  fetchDataBySubcategory,
-  fetchDataByCategory,
-  fetchOrdersDataForCharts,
-} from "./features/get";
-
-export { loginUser, addProduct, uploadImage } from "./features/post";
+export * from "./features/put";
+export * from "./features/get";
+export * from "./features/post";
