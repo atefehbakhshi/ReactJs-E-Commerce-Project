@@ -9,6 +9,9 @@ const initialState = {
   searchText: {
     text: null,
   },
+  rangePrice: {
+    max: null,
+  },
 };
 
 const categorySlice = createSlice({
@@ -21,9 +24,13 @@ const categorySlice = createSlice({
     getSearchText: (state, action) => {
       state.searchText = action.payload;
     },
+    getRangePrice: (state, action) => {
+      state.rangePrice = action.payload;
+    },
   },
 });
 
-export const { getFilterList, getSearchText } = categorySlice.actions;
+export const { getFilterList, getSearchText, getRangePrice } =
+  categorySlice.actions;
 
 export default categorySlice.reducer;

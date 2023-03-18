@@ -4,22 +4,16 @@ import { useDispatch } from "react-redux";
 import {
   getFilterList,
   getSearchText,
+  getRangePrice,
 } from "../../store/slices/category-slice";
 
 const SubHeader = ({ text }) => {
   const dispatch = useDispatch();
+  const [searchText, setSearchText] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [maxRange, setMaxRange] = useState(999999);
   const [priceFilter, setPriceFilter] = useState(null);
   const [dateFilter, setDateFilter] = useState(null);
-  const [searchText, setSearchText] = useState(null);
-
-  useEffect(() => {
-    dispatch(
-      getFilterList({
-        price: priceFilter,
-        date: dateFilter,
-      })
-    );
-  }, [priceFilter, dateFilter]);
 
   useEffect(() => {
     // prevent extra request
@@ -30,13 +24,37 @@ const SubHeader = ({ text }) => {
     return () => clearTimeout(timer);
   }, [searchText]);
 
+  // ===========
+  useEffect(() => {
+    if (priceFilter || dateFilter) {
+      setMaxRange(0);
+    } else {
+      setMaxRange(999999);
+    }
+    dispatch(
+      getRangePrice({
+        max: maxPrice,
+      })
+    );
+  }, [priceFilter, dateFilter, maxPrice]);
+  // ===========
+
+  useEffect(() => {
+    dispatch(
+      getFilterList({
+        price: priceFilter,
+        date: dateFilter,
+      })
+    );
+  }, [priceFilter, dateFilter]);
+
   return (
     <div>
       <header className="flex justify-center mb-3 font-semibold sub-header">
         <h1>{text}</h1>
       </header>
 
-      <div className="flex flex-col gap-2 md:flex-row ">
+      <div className="flex flex-col gap-2 ">
         <div className="flex items-center gap-4  bg-gray-100 rounded p-2 max-w-[20rem]">
           <Icon icon="material-symbols:search" width="20" />
           <input
@@ -47,36 +65,58 @@ const SubHeader = ({ text }) => {
           />
         </div>
 
-        <div className="flex gap-4 py-2 px-1">
-          <select
-            className="px-4 max-w-[10rem] hover:shadow-custom"
-            onChange={(e) => {
-              setPriceFilter(e.target.value);
-              setDateFilter(null);
-            }}
-            // do not display which option selected
-            value={""}
-          >
-            <option className="hidden">قیمت</option>
-            <option value="desc">بیشترین قیمت</option>
-            <option value="asc">کمترین قیمت</option>
-          </select>
-          <select
-            className="px-4 max-w-[10rem] hover:shadow-custom"
-            onChange={(e) => {
-              setDateFilter(e.target.value);
-              setPriceFilter(null);
-            }}
-            // do not display which option selected
-            value={""}
-          >
-            <option className="hidden">تاریخ</option>
-            <option value="desc">جدیدترین</option>
-            <option value="asc">قدیمی ترین</option>
-          </select>
+        <div className="flex flex-col sm:flex-row gap-4 py-2">
+          <div className="flex items-center gap-2">
+            <p>
+              {" "}
+              قیمت تا{" "}
+              {(maxPrice || maxPrice === 0) &&
+                `${maxPrice.toLocaleString("fa")} تومان`}{" "}
+            </p>
+            <input
+              type="range"
+              min="0"
+              max={maxRange}
+              onChange={(e) => {
+                setMaxPrice(+e.target.value);
+                setPriceFilter(null);
+                setDateFilter(null);
+              }}
+            />
+          </div>
+          <div>
+            <select
+              className="max-w-[10rem] hover:shadow-custom"
+              onChange={(e) => {
+                setPriceFilter(e.target.value);
+                setDateFilter(null);
+                setMaxPrice(null);
+              }}
+              // do not display which option selected
+              value={""}
+            >
+              <option className="hidden">قیمت</option>
+              <option value="desc">بیشترین قیمت</option>
+              <option value="asc">کمترین قیمت</option>
+            </select>
+            <select
+              className="px-4 max-w-[10rem] hover:shadow-custom"
+              onChange={(e) => {
+                setDateFilter(e.target.value);
+                setPriceFilter(null);
+                setMaxPrice(null);
+              }}
+              // do not display which option selected
+              value={""}
+            >
+              <option className="hidden">تاریخ</option>
+              <option value="desc">جدیدترین</option>
+              <option value="asc">قدیمی ترین</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 px-4 mt-2">
+      <div className="flex items-center gap-2 mt-2">
         {priceFilter && (
           <>
             <Icon

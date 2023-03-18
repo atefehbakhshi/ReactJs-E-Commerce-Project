@@ -64,3 +64,14 @@ export const fetchSearchData = (
   instance.get(
     `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&name_like=${text}&&_page=${page}&_limit=${limit}`
   );
+
+// get  products for each subCategory page by limiting price
+export const fetchRangeData = (
+  id: number,
+  page: number,
+  limit: number,
+  max: number
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&price_gte=0&price_lte=${max}&&_page=${page}&_limit=${limit}`
+  );
