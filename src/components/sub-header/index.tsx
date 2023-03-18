@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   getFilterList,
@@ -7,13 +7,13 @@ import {
   getRangePrice,
 } from "../../store/slices/category-slice";
 
-const SubHeader = ({ text }) => {
+const SubHeader: FC<{ text: string }> = ({ text }) => {
   const dispatch = useDispatch();
-  const [searchText, setSearchText] = useState(null);
-  const [maxPrice, setMaxPrice] = useState(null);
+  const [searchText, setSearchText] = useState<string | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [maxRange, setMaxRange] = useState(999999);
-  const [priceFilter, setPriceFilter] = useState(null);
-  const [dateFilter, setDateFilter] = useState(null);
+  const [priceFilter, setPriceFilter] = useState<string | null>(null);
+  const [dateFilter, setDateFilter] = useState<string | null>(null);
 
   useEffect(() => {
     // prevent extra request
@@ -24,9 +24,9 @@ const SubHeader = ({ text }) => {
     return () => clearTimeout(timer);
   }, [searchText]);
 
-  // ===========
+  // prevent from changing price range when other filter works
   useEffect(() => {
-    if (priceFilter || dateFilter) {
+    if (priceFilter || dateFilter || searchText) {
       setMaxRange(0);
     } else {
       setMaxRange(999999);
@@ -36,9 +36,9 @@ const SubHeader = ({ text }) => {
         max: maxPrice,
       })
     );
-  }, [priceFilter, dateFilter, maxPrice]);
-  // ===========
+  }, [priceFilter, dateFilter, searchText, maxPrice]);
 
+  // get date and price filter
   useEffect(() => {
     dispatch(
       getFilterList({
@@ -55,13 +55,19 @@ const SubHeader = ({ text }) => {
       </header>
 
       <div className="flex flex-col gap-2 ">
-        <div className="flex items-center gap-4  bg-gray-100 rounded p-2 max-w-[20rem]">
+        <div className="flex items-center gap-4 bg-gray-100 rounded p-1 max-w-[30rem] sm:min-w-[20rem]">
           <Icon icon="material-symbols:search" width="20" />
           <input
             type="text"
             placeholder="جستجو در بیش از 50 محصول ..."
             className="bg-transparent outline-none text-xs"
-            onChange={(e) => setSearchText(e.target.value)}
+            value={!searchText ? "" : searchText}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setSearchText(e.target.value);
+              setPriceFilter(null);
+              setDateFilter(null);
+              setMaxPrice(null);
+            }}
           />
         </div>
 
@@ -77,20 +83,22 @@ const SubHeader = ({ text }) => {
               type="range"
               min="0"
               max={maxRange}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setMaxPrice(+e.target.value);
                 setPriceFilter(null);
                 setDateFilter(null);
+                setSearchText(null);
               }}
             />
           </div>
           <div>
             <select
               className="max-w-[10rem] hover:shadow-custom"
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 setPriceFilter(e.target.value);
                 setDateFilter(null);
                 setMaxPrice(null);
+                setSearchText(null);
               }}
               // do not display which option selected
               value={""}
@@ -101,10 +109,11 @@ const SubHeader = ({ text }) => {
             </select>
             <select
               className="px-4 max-w-[10rem] hover:shadow-custom"
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 setDateFilter(e.target.value);
                 setPriceFilter(null);
                 setMaxPrice(null);
+                setSearchText(null);
               }}
               // do not display which option selected
               value={""}
@@ -139,6 +148,18 @@ const SubHeader = ({ text }) => {
               className="cursor-pointer"
             />
             <p>{dateFilter === "asc" ? "قدیمی ترین" : "جدید ترین"}</p>
+          </>
+        )}
+        {searchText && (
+          <>
+            <Icon
+              icon="carbon:close-filled"
+              width="16"
+              color="#626262"
+              onClick={() => setSearchText(null)}
+              className="cursor-pointer"
+            />
+            <p>{searchText}</p>
           </>
         )}
       </div>
