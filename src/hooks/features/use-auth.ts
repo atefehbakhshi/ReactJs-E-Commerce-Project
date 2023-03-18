@@ -33,7 +33,8 @@ export const useAuth = () => {
     try {
       const res = await loginUser(data);
       if (res.data?.accessToken) {
-        localStorage.setItem("token", res.data?.accessToken);
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("refresh_token", res.data.refreshToken);
         toast.success(". به پنل ادمین خوش آمدید");
         navigate("/admin");
       }
