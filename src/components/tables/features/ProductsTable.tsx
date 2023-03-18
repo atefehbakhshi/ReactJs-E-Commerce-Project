@@ -18,7 +18,7 @@ export const ProductsTable = ({ list, onFiltredList }) => {
 
   const seEditProductModal = (id) => {
     dispatch(setShowModal(true));
-    dispatch(setModalName("addNewProduct"));
+    dispatch(setModalName("addEditProduct"));
     dispatch(getId(id));
   };
 

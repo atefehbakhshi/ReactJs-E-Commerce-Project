@@ -9,8 +9,14 @@ export const AddEditProduct = () => {
   const [mode, setMode] = useState("add");
   const [subcategory, setSubcategory] = useState(["زنانه", "مردانه"]);
   const { tempId } = useSelector((state) => state.modal);
-  const { register, handleSubmit, errors, handleAddProduct, reset } =
-    useAddEditProduct(mode);
+  const {
+    register,
+    handleSubmit,
+    errors,
+    handleAddProduct,
+    reset,
+    getEditedProduct,
+  } = useAddEditProduct(mode);
 
   const categoryHandler = (e) => {
     if (e.target.value === "6") {
@@ -27,6 +33,7 @@ export const AddEditProduct = () => {
 
       fetchDataById(tempId).then((res) => {
         const editedProduct = { ...res.data[0] };
+        getEditedProduct({ ...res.data[0] });
 
         // last category has difference subcategory name
         if (res.data[0].subcategory === 11 || res.data[0].subcategory === 12) {
@@ -39,7 +46,6 @@ export const AddEditProduct = () => {
         } else {
           editedProduct.subcategory = 1;
         }
-
         reset(editedProduct);
       });
     }
@@ -69,19 +75,19 @@ export const AddEditProduct = () => {
 
         <Input
           label="تصویر محصول"
-          id="image"
+          id="thumbnail"
           type="file"
-          error={errors.image?.message}
-          validation={{ ...register("image") }}
+          error={errors.thumbnail?.message}
+          validation={{ ...register("thumbnail") }}
           accept=".png,.jpg"
         />
 
         <Input
           label="لیست تصاویر محصول "
-          id="images"
+          id="image"
           type="file"
-          error={errors.images?.message}
-          validation={{ ...register("images") }}
+          error={errors.image?.message}
+          validation={{ ...register("image") }}
           accept=".png,.jpg"
           multiple="multiple"
         />

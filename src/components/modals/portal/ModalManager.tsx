@@ -5,7 +5,7 @@ import { AddEditProduct, DeleteProduct, OrdersInfo } from "../index";
 
 const modalList = [
   {
-    id: "addNewProduct",
+    id: "addEditProduct",
     header: "افزودن / ویرایش",
     fn: () => <AddEditProduct />,
   },

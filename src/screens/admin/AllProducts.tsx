@@ -23,7 +23,7 @@ export const AllProducts = () => {
 
   const addProduct = () => {
     dispatch(setShowModal(true));
-    dispatch(setModalName("addNewProduct"));
+    dispatch(setModalName("addEditProduct"));
   };
 
   return (
