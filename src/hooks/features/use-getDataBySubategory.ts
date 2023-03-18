@@ -19,7 +19,6 @@ const getData = async (fn, inputs) => {
 
 export const useGetDataBySubcategory: GetDataT = (subCategoryId, page) => {
   const [list, setList] = useState([]);
-  const [constInputs, setConstInputs] = useState<number[]>([]);
   const [count, setCount] = useState(0);
   const { filterList, searchText, rangePrice } = useSelector(
     (state) => state.category
@@ -29,31 +28,46 @@ export const useGetDataBySubcategory: GetDataT = (subCategoryId, page) => {
   let inputs;
 
   useEffect(() => {
-    setConstInputs([subCategoryId, page, DATA_ON_PRODUCTS_PAGE]);
-  }, [page]);
-
-  useEffect(() => {
     if (filterList.price) {
       fn = fetchFiltredData;
-      inputs = [...constInputs, "price", filterList.price];
+      inputs = [
+        subCategoryId,
+        page,
+        DATA_ON_PRODUCTS_PAGE,
+        "price",
+        filterList.price,
+      ];
     } else if (filterList.date) {
       fn = fetchFiltredData;
-      inputs = [...constInputs, "createdAt", filterList.date];
+      inputs = [
+        subCategoryId,
+        page,
+        DATA_ON_PRODUCTS_PAGE,
+        "createdAt",
+        filterList.date,
+      ];
     } else if (rangePrice.max) {
       fn = fetchRangeData;
-      inputs = [...constInputs, rangePrice.max];
+      inputs = [subCategoryId, page, DATA_ON_PRODUCTS_PAGE, rangePrice.max];
     } else if (searchText.text) {
       fn = fetchSearchData;
-      inputs = [...constInputs, searchText.text];
+      inputs = [subCategoryId, page, DATA_ON_PRODUCTS_PAGE, searchText.text];
     } else {
       fn = fetchDataBySubcategory;
-      inputs = [...constInputs];
+      inputs = [subCategoryId, page, DATA_ON_PRODUCTS_PAGE];
     }
     getData(fn, inputs).then((res) => {
       setList(res.data);
       setCount(res.count);
     });
-  }, [constInputs, filterList, rangePrice, searchText]);
+  }, [
+    subCategoryId,
+    page,
+    DATA_ON_PRODUCTS_PAGE,
+    filterList,
+    rangePrice,
+    searchText,
+  ]);
 
   return [list, DATA_ON_PRODUCTS_PAGE, count];
 };
