@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchDataBySubcategory, fetchFiltredData } from "../../api/services";
+import {
+  fetchDataBySubcategory,
+  fetchFiltredData,
+  fetchSearchData,
+} from "../../api/services";
 import { DATA_ON_PRODUCTS_PAGE } from "../../constants";
 
 const getData = async (id: number, page: number, limit: number) => {
@@ -11,7 +15,7 @@ const getData = async (id: number, page: number, limit: number) => {
   };
 };
 
-const getFilterDate = async (
+const getFilterData = async (
   id: number,
   page: number,
   limit: number,
@@ -25,14 +29,22 @@ const getFilterDate = async (
   };
 };
 
+const getSearchData = async (id, page, limit, text) => {
+  const res = await fetchSearchData(id, page, limit, text);
+  return {
+    data: res.data,
+    count: res.headers["x-total-count"],
+  };
+};
+
 export const useGetDataBySubcategory = (subCategoryId, page) => {
   const [list, setList] = useState([]);
   const [count, setCount] = useState(0);
-  const { filterList } = useSelector((state) => state.category);
+  const { filterList, searchText } = useSelector((state) => state.category);
 
   useEffect(() => {
-    if (filterList.price && !filterList.date) {
-      getFilterDate(
+    if (filterList.price) {
+      getFilterData(
         subCategoryId,
         page,
         DATA_ON_PRODUCTS_PAGE,
@@ -42,8 +54,8 @@ export const useGetDataBySubcategory = (subCategoryId, page) => {
         setList(res.data);
         setCount(res.count);
       });
-    } else if (!filterList.price && filterList.date) {
-      getFilterDate(
+    } else if (filterList.date) {
+      getFilterData(
         subCategoryId,
         page,
         DATA_ON_PRODUCTS_PAGE,
@@ -60,6 +72,20 @@ export const useGetDataBySubcategory = (subCategoryId, page) => {
       });
     }
   }, [page, filterList]);
+
+  useEffect(() => {
+    if (searchText.text) {
+      getSearchData(
+        subCategoryId,
+        page,
+        DATA_ON_PRODUCTS_PAGE,
+        searchText.text
+      ).then((res) => {
+        setList(res.data);
+        setCount(res.count);
+      });
+    }
+  }, [page, searchText]);
 
   return [list, DATA_ON_PRODUCTS_PAGE, count];
 };

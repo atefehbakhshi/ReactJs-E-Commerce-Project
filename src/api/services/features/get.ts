@@ -53,3 +53,14 @@ export const fetchFiltredData = (
   instance.get(
     `/products?_sort=${filterType}&_order=${text}&&subcategory=${id}&&_page=${page}&_limit=${limit}`
   );
+
+// get  products for each subCategory page by search text
+export const fetchSearchData = (
+  id: number,
+  page: number,
+  limit: number,
+  text: string
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&name_like=${text}&&_page=${page}&_limit=${limit}`
+  );

@@ -2,8 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   filterList: {
+    searchText: null,
     price: null,
     date: null,
+  },
+  searchText: {
+    text: null,
   },
 };
 
@@ -14,9 +18,12 @@ const categorySlice = createSlice({
     getFilterList: (state, action) => {
       state.filterList = action.payload;
     },
+    getSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
   },
 });
 
-export const { getFilterList } = categorySlice.actions;
+export const { getFilterList, getSearchText } = categorySlice.actions;
 
 export default categorySlice.reducer;
