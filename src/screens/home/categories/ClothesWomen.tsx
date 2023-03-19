@@ -1,6 +1,6 @@
 import SubHeader from "../../../components/sub-header";
 import Product from "../../../components/product/Product";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../../../components/pagination";
 import { useGetDataBySubcategory } from "../../../hooks";
 
@@ -11,6 +11,11 @@ export const ClothesWomen = () => {
     subcategoryNo,
     page
   );
+
+  // for the first time page started from top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
