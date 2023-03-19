@@ -1,5 +1,8 @@
 import { instance } from "../../constants";
 
+// refresh token
+export const getProtection = () => instance.get("/protection");
+
 // get products of each category by limit length
 export const fetchDataByCategory = (id: string, page: number, limit: number) =>
   instance.get(

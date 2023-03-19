@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { loginUser } from "../../api/services/index";
+import { getProtection, loginUser } from "../../api/services/index";
 
 const loginSchema = yup.object({
   username: yup.string().required("نام کاربری الزامیست ."),
@@ -17,6 +17,9 @@ export const useAuth = () => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       navigate("/admin");
+    } else {
+      // use refresh token
+      getProtection();
     }
   }, [localStorage.getItem("token")]);
 
