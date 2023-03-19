@@ -25,7 +25,7 @@ export const Footer = () => {
               <Link to="/products/clothes">لباس</Link>
             </li>
             <li>
-              <Link to="/products/perfum">عطر و ادکلن</Link>
+              <Link to="/products/perfume">عطر و ادکلن</Link>
             </li>
             <li>
               <Link to="/products/jewellery">جواهرات</Link>
