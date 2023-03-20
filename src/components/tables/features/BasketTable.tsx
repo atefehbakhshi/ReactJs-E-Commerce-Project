@@ -1,9 +1,34 @@
 import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addOrderProduct } from "../../../store/slices/order-slice";
 
 export const BasketTable = ({ selectedList, location }) => {
   const dispatch = useDispatch();
+
+  const countHandler = (product, text) => {
+    const index = selectedList.findIndex((item) => item.id === product.id);
+    const newList = [...selectedList];
+    let editProduct;
+    if (text === "minus") {
+      if (product.count === 1) {
+        newList.splice(index, 1);
+      } else {
+        editProduct = { ...product, count: +(product.count - 1) };
+        newList.splice(index, 1, editProduct);
+      }
+      dispatch(addOrderProduct(newList));
+    } else {
+      if (product.count === product.limitCount) {
+        toast.warn(`تعداد موجودی در انبار  ${product.count} عدد می باشد.`);
+      } else {
+        editProduct = { ...product, count: product.count + 1 };
+        newList.splice(index, 1, editProduct);
+        dispatch(addOrderProduct(newList));
+      }
+    }
+  };
+
   const deleteHandler = (id) => {
     const newList = selectedList.filter((item) => item.id !== id);
     dispatch(addOrderProduct(newList));
@@ -39,7 +64,27 @@ export const BasketTable = ({ selectedList, location }) => {
                 />
               </td>
               <td className="p-1">{product.name}</td>
-              <td>{product.count.toLocaleString("fa")}</td>
+              <td>
+                {location !== "adminPanel" ? (
+                  <div className="flex gap-1 items-center">
+                    <Icon
+                      icon="material-symbols:arrow-drop-down-rounded"
+                      width="24"
+                      className="cursor-pointer"
+                      onClick={() => countHandler(product, "minus")}
+                    />
+                    <span> {product.count.toLocaleString("fa")}</span>
+                    <Icon
+                      icon="material-symbols:arrow-drop-up-rounded"
+                      width="24"
+                      className="cursor-pointer"
+                      onClick={() => countHandler(product, "plus")}
+                    />
+                  </div>
+                ) : (
+                  <span> {product.count.toLocaleString("fa")}</span>
+                )}
+              </td>
               <td>{product.price.toLocaleString("fa")}</td>
               {location !== "adminPanel" ? (
                 <td>

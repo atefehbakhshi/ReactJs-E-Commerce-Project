@@ -39,6 +39,7 @@ const ProductDetail = () => {
       count: count,
       price: product.price,
       image: product.thumbnail,
+      limitCount: product.quantity,
     };
     newOrderList.push(order);
     dispatch(addOrderProduct(newOrderList));
