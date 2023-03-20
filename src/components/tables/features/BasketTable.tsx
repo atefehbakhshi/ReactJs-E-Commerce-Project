@@ -1,13 +1,17 @@
 import { Icon } from "@iconify/react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addOrderProduct } from "../../../store/slices/order-slice";
+import { BasketTableI, OrderProductI } from "../../../type/interface";
 
-export const BasketTable = ({ selectedList, location }) => {
+export const BasketTable: FC<BasketTableI> = ({ selectedList, location }) => {
   const dispatch = useDispatch();
 
-  const countHandler = (product, text) => {
-    const index = selectedList.findIndex((item) => item.id === product.id);
+  const countHandler = (product: OrderProductI, text: string) => {
+    const index = selectedList.findIndex(
+      (item: OrderProductI) => item.id === product.id
+    );
     const newList = [...selectedList];
     let editProduct;
     if (text === "minus") {
@@ -29,8 +33,10 @@ export const BasketTable = ({ selectedList, location }) => {
     }
   };
 
-  const deleteHandler = (id) => {
-    const newList = selectedList.filter((item) => item.id !== id);
+  const deleteHandler = (id: number) => {
+    const newList = selectedList.filter(
+      (item: OrderProductI) => item.id !== id
+    );
     dispatch(addOrderProduct(newList));
   };
 
