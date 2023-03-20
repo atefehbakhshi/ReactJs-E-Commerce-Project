@@ -62,7 +62,7 @@ export const Sidebar = () => {
   return (
     <div>
       <div className="hidden z-[55]" style={menu}>
-        <ul className="px-3 py-8">
+        <ul className="pr-3 py-8 md:border-l">
           <SidebarLink
             mainPath="/watch"
             firstSubPath="/women"

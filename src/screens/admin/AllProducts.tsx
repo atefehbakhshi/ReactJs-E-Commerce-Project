@@ -1,32 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchAllProductsData, fetchDataByCategory } from "../../api/services";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/buttons";
-import { EndOfList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { ProductsTable } from "../../components/tables";
+import { getAllProducts } from "../../store/actions/data-actions";
 import { setModalName, setShowModal } from "../../store/slices/modal-slice";
-import { AllProductsGetData } from "../../type/type";
-
-const DATA_PER_PAGE = 5;
-
-const getData: AllProductsGetData = async (page, limit, productCategory) => {
-  let res;
-  if (productCategory === "all") {
-    res = await fetchAllProductsData(page, limit);
-  } else {
-    res = await fetchDataByCategory(productCategory, page, limit);
-  }
-  const data = { data: res.data, status: res.status };
-  return data;
-};
 
 export const AllProducts = () => {
   const dispatch = useDispatch();
-  const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
   const [productCategory, setProductCategory] = useState("all");
-  const [emptyPage, setEmptyPage] = useState(false);
+  const { allProducts } = useSelector((state) => state.data);
 
   const filtredList = (id: string) => {
     setProductCategory(id);
@@ -34,19 +18,12 @@ export const AllProducts = () => {
   };
 
   useEffect(() => {
-    getData(page, DATA_PER_PAGE, productCategory).then((res) => {
-      if (res.status === 200 && res.data.length === 0) {
-        setEmptyPage(true);
-      } else {
-        setEmptyPage(false);
-      }
-      setList(res.data);
-    });
+    dispatch(getAllProducts({ page, productCategory }));
   }, [page, productCategory]);
 
   const addProduct = () => {
     dispatch(setShowModal(true));
-    dispatch(setModalName("addNewProduct"));
+    dispatch(setModalName("addEditProduct"));
   };
 
   return (
@@ -62,22 +39,18 @@ export const AllProducts = () => {
         </Button>
       </header>
       <div className="px-3 py-8 max-w-xl mx-auto">
-        {emptyPage ? (
-          <EndOfList />
-        ) : list.length === 0 ? (
+        {allProducts.status === "pending" ? (
           <span className="loader"></span>
         ) : (
-          <ProductsTable list={list} onFiltredList={filtredList} />
+          <ProductsTable list={allProducts.list} onFiltredList={filtredList} />
         )}
       </div>
       <Pagination
         page={page}
-        list={list}
+        totalCount={allProducts.count}
         OnSetPage={(pageNo) => setPage(pageNo)}
-        dataLength={DATA_PER_PAGE}
+        dataPerPage={allProducts.dataPerPage}
       />
-      {/* chart */}
-      <div></div>
     </main>
   );
 };

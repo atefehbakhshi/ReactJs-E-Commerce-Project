@@ -4,19 +4,22 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { loginUser } from "../../api/services/index";
+import { getProtection, loginUser } from "../../api/services/index";
 
 const loginSchema = yup.object({
-  username: yup.string().required(),
-  password: yup.string().required(),
+  username: yup.string().required("نام کاربری الزامیست ."),
+  password: yup.string().required("رمز عبور الزامیست ."),
 });
 
-const useAuth = () => {
+export const useAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      navigate("/admin/all-products");
+      navigate("/admin");
+    } else {
+      // use refresh token
+      getProtection();
     }
   }, [localStorage.getItem("token")]);
 
@@ -33,12 +36,13 @@ const useAuth = () => {
     try {
       const res = await loginUser(data);
       if (res.data?.accessToken) {
-        localStorage.setItem("token", res.data?.accessToken);
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("refresh_token", res.data.refreshToken);
         toast.success(". به پنل ادمین خوش آمدید");
-        navigate("/admin/all-products");
+        navigate("/admin");
       }
     } catch (ex) {
-      toast.error("!!!نام کاربری  یا رمز عبور صحیح نیست ");
+      toast.error("!!!نام کاربری  یا رمز عبور صحیح نمی باشد ");
     }
   };
 
@@ -49,5 +53,3 @@ const useAuth = () => {
     handleLoginUser,
   };
 };
-
-export default useAuth;

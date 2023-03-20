@@ -13,7 +13,7 @@ const Product = ({ img, title, price, id }) => {
         </div>
         <div className="p-3">
           <h3 className="pb-3">{title}</h3>
-          <p>{price}هزار تومان </p>
+          <p>{price.toLocaleString("fa")}هزار تومان </p>
         </div>
       </div>
     </Link>

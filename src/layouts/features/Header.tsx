@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuthToken } from "../../utile/auth";
 
@@ -10,11 +11,14 @@ export const Header = () => {
 
   const loginHandler = () => {
     if (token) {
-      navigate("/admin/all-products");
+      navigate("/admin");
     } else {
       navigate("/admin/login");
     }
   };
+
+  // get length of order list
+  const { list } = useSelector((state) => state.order);
 
   return (
     <header className="flex justify-between p-3 shadow sticky top-0 z-50 md:px-8">
@@ -23,8 +27,8 @@ export const Header = () => {
           <Link to="/basket">
             <Icon icon="ic:outline-shopping-bag" width="24" />
           </Link>
-          <span className="bg-red-300 rounded-[50%] w-4 h-4 inline-block text-center text-xs absolute right-[-0.35rem] ">
-            0
+          <span className="bg-red-300  rounded-[50%] w-4 h-4 inline-block text-center text-xs absolute right-[-0.35rem]">
+            {list.length}
           </span>
         </div>
         <Icon

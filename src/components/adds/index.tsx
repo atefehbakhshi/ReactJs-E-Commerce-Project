@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchDataByCategoryService } from "../../api/services/get";
+import { fetchDataByCategory } from "../../api/services";
 import { Button } from "../buttons";
 
 const getData = async (id: number) => {
-  const res = await fetchDataByCategoryService(id, 1, 1);
+  const res = await fetchDataByCategory(id, 1, 1);
   return res.data;
 };
 

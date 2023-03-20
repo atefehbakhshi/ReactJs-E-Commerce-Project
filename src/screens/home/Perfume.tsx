@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import Category from "../../components/category";
-import {FadeSlider} from "../../components/slider";
+import { FadeSlider } from "../../components/slider";
 
 // slider
 import one from "/img/slider/perfume/1.png";
@@ -8,6 +9,10 @@ import three from "/img/slider/perfume/3.png";
 const images = [one, two, three];
 
 export const Perfume = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <FadeSlider images={images} />

@@ -1,8 +1,27 @@
 import { Icon } from "@iconify/react";
+import { useDispatch } from "react-redux";
 import { categoryText, subcategoryText } from "../../constants";
+import {
+  setShowModal,
+  setModalName,
+  getId,
+} from "../../../store/slices/modal-slice";
 
 export const ProductsTable = ({ list, onFiltredList }) => {
-  let bg = "";
+  const dispatch = useDispatch();
+
+  const setDeleteProductModal = (id) => {
+    dispatch(setShowModal(true));
+    dispatch(setModalName("deleteModal"));
+    dispatch(getId(id));
+  };
+
+  const seEditProductModal = (id) => {
+    dispatch(setShowModal(true));
+    dispatch(setModalName("addEditProduct"));
+    dispatch(getId(id));
+  };
+
   return (
     <table className=" border border-collapse rounded w-full">
       <thead>
@@ -31,13 +50,11 @@ export const ProductsTable = ({ list, onFiltredList }) => {
       </thead>
       <tbody>
         {list.map((product, index) => {
-          if (Math.floor(index % 2) !== 0) {
-            bg = "bg-gray-200";
-          } else {
-            bg = "";
-          }
           return (
-            <tr key={product.id} className={`${bg}`}>
+            <tr
+              key={product.id}
+              className={`${Math.floor(index % 2) !== 0 ? "bg-gray-200" : ""}`}
+            >
               <td className="p-1 border">
                 <div className="flex justify-center">
                   <img
@@ -54,11 +71,17 @@ export const ProductsTable = ({ list, onFiltredList }) => {
               </td>
               <td className="p-1 border">
                 <div className="flex gap-2">
-                  <Icon icon="carbon:trash-can" width="20" color="#525252" />
+                  <Icon
+                    icon="carbon:trash-can"
+                    width="20"
+                    color="#525252"
+                    onClick={() => setDeleteProductModal(product.id)}
+                  />
                   <Icon
                     icon="material-symbols:edit"
                     width="20"
                     color="#525252"
+                    onClick={() => seEditProductModal(product.id)}
                   />
                 </div>
               </td>

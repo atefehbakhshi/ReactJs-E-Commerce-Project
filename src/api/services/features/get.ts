@@ -1,19 +1,29 @@
 import { instance } from "../../constants";
 
+// refresh token
+export const getProtection = () => instance.get("/protection");
+
 // get products of each category by limit length
 export const fetchDataByCategory = (id: string, page: number, limit: number) =>
-  instance.get(`/products?category=${id}&&_page=${page}&_limit=${limit}`);
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&category=${id}&&_page=${page}&_limit=${limit}`
+  );
 
-// get six products for each category landing page
+// get  products for each subCategory page by limit length
 export const fetchDataBySubcategory = (
   id: number,
   page: number,
   limit: number
-) => instance.get(`/products?subcategory=${id}&&_page=${page}&_limit=${limit}`);
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&_page=${page}&_limit=${limit}`
+  );
 
 // get all products for admin dashboard
 export const fetchAllProductsData = (page: number, limit: number) =>
-  instance.get(`/products?_page=${page}&_limit=${limit}`);
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&_page=${page}&_limit=${limit}`
+  );
 
 // get orders list
 export const fetchOrdersData = (
@@ -26,9 +36,45 @@ export const fetchOrdersData = (
     `/orders?_sort=createdAt&_order=${order}&&_page=${page}&_limit=${limit}&&delivered=${delivered}`
   );
 
+export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
+
 // get product data by id
 export const fetchDataById = (id: number) => instance.get(`/products?id=${id}`);
 
 // get user data by id
 export const fetchUserDataById = (id: number) =>
   instance.get(`/orders?id=${id}`);
+
+// get  products for each subCategory page by sorting date or price
+export const fetchFiltredData = (
+  id: number,
+  page: number,
+  limit: number,
+  filterType: string,
+  text: string
+) =>
+  instance.get(
+    `/products?_sort=${filterType}&_order=${text}&&subcategory=${id}&&_page=${page}&_limit=${limit}`
+  );
+
+// get  products for each subCategory page by search text
+export const fetchSearchData = (
+  id: number,
+  page: number,
+  limit: number,
+  text: string
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&name_like=${text}&&_page=${page}&_limit=${limit}`
+  );
+
+// get  products for each subCategory page by limiting price
+export const fetchRangeData = (
+  id: number,
+  page: number,
+  limit: number,
+  max: number
+) =>
+  instance.get(
+    `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&price_gte=0&price_lte=${max}&&_page=${page}&_limit=${limit}`
+  );
