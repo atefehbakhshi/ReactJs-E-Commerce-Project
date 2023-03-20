@@ -1,5 +1,6 @@
 import * as yup from "yup";
 
+// add or edit product
 const addImages = {
   thumbnail: yup
     .mixed()
@@ -47,11 +48,14 @@ export const CreateSchema = (mode: string) => {
       name: yup.string().required("نام محصول الزامیست ."),
       ...addImages,
       brand: yup.string().required("برند محصول الزامیست ."),
-      price: yup.string().required("قیمت محصول الزامیست .").matches("^[0-9]*$"),
+      price: yup
+        .string()
+        .required("قیمت محصول الزامیست .")
+        .matches(/^[0-9]*$/),
       quantity: yup
         .string()
         .required("تعداد محصول الزامیست .")
-        .matches("^[0-9]*$"),
+        .matches(/^[0-9]*$/),
       category: yup.string().required(" دسته بندی محصول الزامیست ."),
       subcategory: yup
         .string()
@@ -63,11 +67,14 @@ export const CreateSchema = (mode: string) => {
       name: yup.string().required("نام محصول الزامیست ."),
       ...editImage,
       brand: yup.string().required("برند محصول الزامیست ."),
-      price: yup.string().required("قیمت محصول الزامیست .").matches("^[0-9]*$"),
+      price: yup
+        .string()
+        .required("قیمت محصول الزامیست .")
+        .matches(/^[0-9]*$/),
       quantity: yup
         .string()
         .required("تعداد محصول الزامیست .")
-        .matches("^[0-9]*$"),
+        .matches(/^[0-9]*$/),
       category: yup.string().required(" دسته بندی محصول الزامیست ."),
       subcategory: yup
         .string()
@@ -77,3 +84,21 @@ export const CreateSchema = (mode: string) => {
   }
   return schema;
 };
+
+// user in checkout page
+export const userSchema = yup.object({
+  name: yup
+    .string()
+    .required("نام الزامیست .")
+    .matches(/^[آ-ی]+$/, "لطفا از حروف فارسی استفاده شود ."),
+  family: yup
+    .string()
+    .required("نام خانوادگی الزامیست .")
+    .matches(/^[آ-ی]+$/, "لطفا از حروف فارسی استفاده شود ."),
+  address: yup.string().required("آدرس الزامیست ."),
+  phone: yup
+    .string()
+    .required("تلفن همراه الزامیست .")
+    .matches(/09[0-9]/, "لطفا از اعداد انگلیسی استفاده شده و با ۰۹ شروع شود .")
+    .length(11, "شماره باید ۱۱ رقمی باشد ."),
+});
