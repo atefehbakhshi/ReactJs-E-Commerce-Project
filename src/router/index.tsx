@@ -4,7 +4,6 @@ import * as home from "../screens/home";
 import * as admin from "../screens/admin";
 import Payment from "../screens/payment";
 import * as categories from "../screens/home/categories";
-import { checkAuthLoader } from "../util/auth";
 
 const router = createBrowserRouter([
   {
@@ -134,8 +133,10 @@ const router = createBrowserRouter([
       },
       { path: "basket", element: <home.Basket /> },
       { path: "checkout", element: <home.Checkout /> },
-      { path: "success-payment", element: <home.PaymentSuccess /> },
-      { path: "failure-payment", element: <home.PaymentFailure /> },
+      {
+        path: "payment-result",
+        children: [{ path: ":result", element: <home.PaymentResult /> }],
+      },
     ],
   },
   {
@@ -146,6 +147,7 @@ const router = createBrowserRouter([
         path: "",
         element: <AdminRoot />,
         children: [
+          { index: true, element: <admin.Main /> },
           { path: "all-products", element: <admin.AllProducts /> },
           { path: "orders", element: <admin.Orders /> },
           { path: "price-quantity", element: <admin.PriceQuantity /> },
