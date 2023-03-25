@@ -1,10 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-// import { toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-// import { loginUser } from "../../api/services/index";
+import { addOrder, editQuantity } from "../../api/services";
 
 const paymentSchema = yup.object({
   cartNumber: yup
@@ -48,19 +45,34 @@ export const usePayment = () => {
     mode: "onChange",
   });
 
-  const handlePayment = async (data) => {
-    console.log(data);
-    // try {
-    //   const res = await loginUser(data);
-    //   if (res.data?.accessToken) {
-    //     localStorage.setItem("token", res.data.accessToken);
-    //     localStorage.setItem("refresh_token", res.data.refreshToken);
-    //     toast.success(". به پنل ادمین خوش آمدید");
-    //     navigate("/admin");
-    //   }
-    // } catch (ex) {
-    //   toast.error("!!!نام کاربری  یا رمز عبور صحیح نمی باشد ");
-    // }
+  const handlePayment = async (data: any) => {
+    const order = JSON.parse(localStorage.getItem("order"));
+    const products = [...order.products];
+
+    // remove limitCount property
+    const editList = [...order.products].map((item) => {
+      const { limitCount, ...edited } = item;
+      return edited;
+    });
+    const newOrder = { ...order, products: editList };
+
+    try {
+      const res = await addOrder(newOrder);
+      if (res.status === 201) {
+        // edit quantity of products in store
+        const res = await Promise.all(
+          products.map((i) => {
+            editQuantity(i.id, { quantity: i.limitCount - i.count });
+          })
+        );
+
+        // remove order from local storage
+        localStorage.removeItem("order");
+        window.location.href = "/payment-result/success";
+      }
+    } catch (ex) {
+      window.location.href = "/payment-result/failure";
+    }
   };
 
   return {

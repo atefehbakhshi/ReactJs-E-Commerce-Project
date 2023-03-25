@@ -22,13 +22,7 @@ export const useCheckout = () => {
   } = useForm({ resolver: yupResolver(userSchema), mode: "onChange" });
   const { list } = useSelector((state) => state.order);
 
-  // remove limitCount property
-  const editList = [...list].map((item) => {
-    const { limitCount, ...edited } = item;
-    return edited;
-  });
-
-  const totalPrice = calculatePrice(editList);
+  const totalPrice = calculatePrice(list);
 
   const getDate = (date) => {
     expectDate = new Date(`${date}`).getTime();
@@ -41,10 +35,11 @@ export const useCheckout = () => {
       address: data.address,
       phone: data.phone,
       expectAt: expectDate,
-      products: editList,
+      products: list,
       prices: totalPrice,
       delivered: false,
     };
+    localStorage.setItem("order", JSON.stringify(newOrder));
     window.location.href = "/payment";
   };
 
