@@ -1,6 +1,8 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
+import { ProductParams } from "../../type/interface";
 
-const Product = ({ img, title, price, id }) => {
+const Product: FC<ProductParams> = ({ img, title, price, id }) => {
   return (
     <Link to={`/products/${id}`}>
       <div className="cart-shadow cursor-pointer hover:scale-105 md:max-w-sm">
