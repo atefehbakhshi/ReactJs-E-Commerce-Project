@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { perToEn } from "../../utile/transferNumbers";
+import { ProductI } from "../../type/interface";
 
-const Td = ({ product, editValue, editList, setEditList, text }) => {
+const Td: FC<{
+  product: ProductI;
+  editValue: number;
+  editList: ProductI[];
+  setEditList: (list: ProductI[]) => void;
+  text: string;
+}> = ({ product, editValue, editList, setEditList, text }) => {
   const [editMode, setEditMode] = useState(true);
   return (
     <td
@@ -12,8 +19,8 @@ const Td = ({ product, editValue, editList, setEditList, text }) => {
       suppressContentEditableWarning={true}
       onClick={(e) => {
         setEditMode(true);
-
-        e.target.innerText = editValue.toLocaleString("fa").split("٬").join("");
+        const event = e.target as HTMLElement;
+        event.innerText = editValue.toLocaleString("fa").split("٬").join("");
       }}
       onBlur={(e) => {
         if (
@@ -21,11 +28,11 @@ const Td = ({ product, editValue, editList, setEditList, text }) => {
           editValue.toLocaleString("fa").split("٬").join("")
         ) {
           const list = [...editList];
-          const filtredList = list.filter((i) => i.id !== product.id);
+          const filtredList = list.filter((i: ProductI) => i.id !== product.id);
 
           const newValue = perToEn(e.target.innerText);
           if (newValue.match("^[0-9]*$") !== null) {
-            let editedValue;
+            let editedValue: ProductI = { ...product };
             if (text === "price") {
               editedValue = {
                 ...product,
@@ -48,7 +55,8 @@ const Td = ({ product, editValue, editList, setEditList, text }) => {
       }}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
-          e.target.innerText = editValue.toLocaleString("fa");
+          const event = e.target as HTMLElement;
+          event.innerText = editValue.toLocaleString("fa");
 
           const list = [...editList];
           const filtredList = list.filter((i) => i.id !== product.id);

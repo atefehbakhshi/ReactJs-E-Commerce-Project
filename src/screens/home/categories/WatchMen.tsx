@@ -3,6 +3,7 @@ import Product from "../../../components/product/Product";
 import { useEffect, useState } from "react";
 import Pagination from "../../../components/pagination";
 import { useGetDataBySubcategory } from "../../../hooks";
+import { ProductI } from "../../../type/interface";
 
 const subcategoryNo = 2;
 export const WatchMen = () => {
@@ -26,7 +27,7 @@ export const WatchMen = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 mb-4 py-8 sm:px-8 sm:grid-cols-3">
-          {list.map((product) => (
+          {list.map((product: ProductI) => (
             <Product
               key={product.id}
               img={product.thumbnail}

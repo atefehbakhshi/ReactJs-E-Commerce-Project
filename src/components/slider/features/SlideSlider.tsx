@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 
@@ -9,7 +10,7 @@ const slideOutProperties = {
   arrows: true,
 };
 
-export const SlideSlider = ({ images }) => {
+export const SlideSlider:FC<{images:string[]}> = ({ images }) => {
   return (
     <>
       {images && (

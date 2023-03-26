@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { ProductI } from "../../../type/interface";
 import Td from "../../table-td";
 
-export const PriceQuantityTable = ({
-  list,
-  onContainEditItem,
-  onEditHandler,
-  mode,
-}) => {
-  const [editPriceList, setEditPriceList] = useState([]);
-  const [editQuantityList, setEditQuantityList] = useState([]);
+export const PriceQuantityTable: FC<{
+  list: ProductI[];
+  onContainEditItem: (a: boolean) => void;
+  onEditHandler: (a: { price: ProductI[]; quantity: ProductI[] }) => void;
+  mode: string;
+}> = ({ list, onContainEditItem, onEditHandler, mode }) => {
+  const [editPriceList, setEditPriceList] = useState<ProductI[] | []>([]);
+  const [editQuantityList, setEditQuantityList] = useState<ProductI[] | []>([]);
 
   // reset lists for changing colorful background
   useEffect(() => {

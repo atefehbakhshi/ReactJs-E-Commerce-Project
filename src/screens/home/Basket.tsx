@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/buttons";
 import { EmptyBasket } from "../../components/notices";
 import { BasketTable } from "../../components/tables";
+import { OrderProductI } from "../../type/interface";
 
 export const Basket = () => {
   const { list } = useSelector((state) => state.order);
@@ -11,7 +12,7 @@ export const Basket = () => {
 
   useEffect(() => {
     let price = 0;
-    list.forEach((item) => {
+    list.forEach((item: OrderProductI) => {
       price += item.price * item.count;
     });
     setTotalPrice(price);

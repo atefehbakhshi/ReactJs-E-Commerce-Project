@@ -1,6 +1,7 @@
 import { FC } from "react";
+import { PaymentButtonParams } from "../../../type/interface";
 
-export const Buttons: FC<{ children: string; colSpan: string; bg: string }> = ({
+export const Buttons: FC<PaymentButtonParams> = ({
   children,
   colSpan,
   bg = "",

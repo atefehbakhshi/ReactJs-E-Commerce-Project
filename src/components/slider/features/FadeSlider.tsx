@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 
@@ -9,7 +10,7 @@ const fadeOutProperties = {
   arrows: true,
 };
 
-export const FadeSlider = ({ images }) => {
+export const FadeSlider: FC<{ images: string[] }> = ({ images }) => {
   return (
     <div className="py-6">
       <Fade {...fadeOutProperties}>

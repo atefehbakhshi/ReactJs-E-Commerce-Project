@@ -7,8 +7,9 @@ import { setShowModal } from "../../store/slices/modal-slice";
 import { getAllProducts } from "../../store/actions/data-actions";
 import { objectCreator, objectEditor } from "../utility/objecCreator";
 import { CreateSchema } from "../utility/schema";
+import { GetProductI, ProductI } from "../../type/interface";
 
-let defaultImages = {
+let defaultImages: { image: string[]; thumbnail: string } = {
   thumbnail: "",
   image: [],
 };
@@ -19,7 +20,7 @@ export const useAddEditProduct = (mode: string) => {
 
   const productSchema = CreateSchema(mode);
 
-  const getEditedProduct = (product) => {
+  const getEditedProduct = (product: ProductI) => {
     defaultImages.thumbnail = product.thumbnail;
     defaultImages.image = product.image;
   };
@@ -34,8 +35,8 @@ export const useAddEditProduct = (mode: string) => {
     mode: "onChange",
   });
 
-  const handleAddProduct = async (data: any) => {
-    let product;
+  const handleAddProduct = async (data: GetProductI) => {
+    let product: ProductI;
 
     if (mode === "add") {
       product = await objectCreator(data);

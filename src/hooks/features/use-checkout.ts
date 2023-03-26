@@ -24,7 +24,7 @@ export const useCheckout = () => {
 
   const totalPrice = calculatePrice(list);
 
-  const getDate = (date) => {
+  const getDate = (date: string) => {
     expectDate = new Date(`${date}`).getTime();
   };
 

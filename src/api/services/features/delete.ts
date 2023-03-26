@@ -1,3 +1,3 @@
 import { instance } from "../../constants";
 
-export const deleteProduct = (id) => instance.delete(`/products/${id}`);
+export const deleteProduct = (id:number) => instance.delete(`/products/${id}`);

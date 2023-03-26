@@ -5,10 +5,11 @@ import {
   fetchOrdersData,
 } from "../../api/services";
 import { ORDERS_PER_PAGE, ALL_PRODUCTS_PER_PAGE } from "../../constants";
+import { GetAllProducts, GetOrderList } from "../../type/interface";
 
 export const getOrdersList = createAsyncThunk(
   "data/ordersData",
-  async ({ ordersDate, page, isDelivered }) => {
+  async ({ ordersDate, page, isDelivered }: GetOrderList) => {
     const res = await fetchOrdersData(
       ordersDate,
       page,
@@ -22,7 +23,7 @@ export const getOrdersList = createAsyncThunk(
 
 export const getAllProducts = createAsyncThunk(
   "data/productsData",
-  async ({ page, productCategory }) => {
+  async ({ page, productCategory }: GetAllProducts) => {
     let res;
     if (productCategory === "all") {
       res = await fetchAllProductsData(page, ALL_PRODUCTS_PER_PAGE);

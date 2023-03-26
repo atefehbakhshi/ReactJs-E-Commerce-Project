@@ -4,7 +4,11 @@ import { instance } from "../../constants";
 export const getProtection = () => instance.get("/protection");
 
 // get products of each category by limit length
-export const fetchDataByCategory = (id: string, page: number, limit: number) =>
+export const fetchDataByCategory = (
+  id: number | string,
+  page: number,
+  limit: number
+) =>
   instance.get(
     `/products?_sort=createdAt&_order=desc&&category=${id}&&_page=${page}&_limit=${limit}`
   );
