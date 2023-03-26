@@ -4,6 +4,12 @@ import { Buttons, Inputs } from "../index";
 
 export const PaymentForm = () => {
   const { register, handleSubmit, errors, handlePayment } = usePayment();
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    window.location.href = "/payment-result/failure";
+  };
+
   return (
     <form className="flex flex-col gap-4">
       <Inputs
@@ -96,7 +102,7 @@ export const PaymentForm = () => {
         >
           پرداخت
         </Buttons>
-        <Buttons colSpan="col-span-1" bg="bg-[#fcbe56]">
+        <Buttons colSpan="col-span-1" bg="bg-[#fcbe56]" onClick={handleCancel}>
           انصراف
         </Buttons>
       </div>
