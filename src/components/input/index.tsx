@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { InputParams } from "../../type/interface";
+import ErrorMessage from "../error-message";
 
 const Input: FC<InputParams> = ({
   label,
@@ -21,7 +22,7 @@ const Input: FC<InputParams> = ({
         {...rest}
         {...validation}
       />
-      <p className="text-red-400 font-light text-xs">{error}</p>
+      <ErrorMessage error={error} />
     </div>
   );
 };

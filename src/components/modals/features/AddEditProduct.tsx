@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { fetchDataById } from "../../../api/services";
 import { useAddEditProduct } from "../../../hooks";
 import { Button } from "../../buttons";
+import ErrorMessage from "../../error-message";
 import Input from "../../input";
 
 export const AddEditProduct = () => {
@@ -18,7 +19,7 @@ export const AddEditProduct = () => {
     getEditedProduct,
   } = useAddEditProduct(mode);
 
-  const categoryHandler = (e) => {
+  const categoryHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === "6") {
       setSubcategory(["دستبند", "گردنبند"]);
     } else {
@@ -64,7 +65,6 @@ export const AddEditProduct = () => {
           error={errors.name?.message}
           validation={{ ...register("name") }}
         />
-
         <Input
           label="برند "
           id="brand"
@@ -72,7 +72,6 @@ export const AddEditProduct = () => {
           error={errors.brand?.message}
           validation={{ ...register("brand") }}
         />
-
         <Input
           label="تصویر محصول"
           id="thumbnail"
@@ -81,7 +80,6 @@ export const AddEditProduct = () => {
           validation={{ ...register("thumbnail") }}
           accept=".png,.jpg"
         />
-
         <Input
           label="لیست تصاویر محصول "
           id="image"
@@ -89,9 +87,8 @@ export const AddEditProduct = () => {
           error={errors.image?.message}
           validation={{ ...register("image") }}
           accept=".png,.jpg"
-          multiple="multiple"
+          multiple
         />
-
         <div className="flex flex-col gap-1">
           <label htmlFor="category" className="font-semibold">
             مجموعه
@@ -100,7 +97,7 @@ export const AddEditProduct = () => {
             id="category"
             className="bg-gray-100 rounded p-2"
             {...register("category")}
-            onBlur={(e) => categoryHandler(e)}
+            onBlur={categoryHandler}
           >
             it does not register correctly
             <option value="" className="hidden"></option>
@@ -111,11 +108,8 @@ export const AddEditProduct = () => {
             <option value="5">عطر و ادکلن</option>
             <option value="6">جواهرات</option>
           </select>
-          <p className="text-red-400 font-light text-xs">
-            {errors.category?.message}
-          </p>
+          <ErrorMessage error={errors.category?.message} />
         </div>
-
         <div className="flex flex-col gap-1">
           <label htmlFor="subcategory" className="font-semibold">
             زیر مجموعه
@@ -132,11 +126,8 @@ export const AddEditProduct = () => {
               </option>
             ))}
           </select>
-          <p className="text-red-400 font-light text-xs">
-            {errors.subcategory?.message}
-          </p>
+          <ErrorMessage error={errors.subcategory?.message} />
         </div>
-
         <Input
           label="قیمت "
           id="price"
@@ -144,7 +135,6 @@ export const AddEditProduct = () => {
           error={errors.price?.message}
           validation={{ ...register("price") }}
         />
-
         <Input
           label="تعداد "
           id="quantity"
@@ -152,7 +142,6 @@ export const AddEditProduct = () => {
           error={errors.quantity?.message}
           validation={{ ...register("quantity") }}
         />
-
         <div className="flex flex-col gap-1">
           <label htmlFor="description" className="font-semibold">
             توضیحات
@@ -163,9 +152,7 @@ export const AddEditProduct = () => {
             className="bg-gray-100 rounded p-2"
             {...register("description")}
           ></textarea>
-          <p className="text-red-400 font-light text-xs">
-            {errors.description?.message}
-          </p>
+          <ErrorMessage error={errors.description?.message} />
         </div>
       </div>
       <div className="flex flex-col md:w-1/2 md:mx-auto">

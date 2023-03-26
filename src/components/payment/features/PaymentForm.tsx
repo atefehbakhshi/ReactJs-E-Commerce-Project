@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
 import { usePayment } from "../../../hooks/features/use-payment";
+import ErrorMessage from "../../error-message";
 import { Buttons, Inputs } from "../index";
 
 export const PaymentForm = () => {
   const { register, handleSubmit, errors, handlePayment } = usePayment();
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     window.location.href = "/payment-result/failure";
   };
@@ -30,12 +31,8 @@ export const PaymentForm = () => {
           <p className="text-gray-400 text-xs hidden sm:block">
             دو رقم ماه / دو رقم آخر سال را وارد کنید .
           </p>
-          <p className="text-red-400 font-light text-xs">
-            {errors.year?.message}
-          </p>
-          <p className="text-red-400 font-light text-xs">
-            {errors.month?.message}
-          </p>
+          <ErrorMessage error={errors.year?.message} />
+          <ErrorMessage error={errors.month?.message} />
         </div>
         <div className="col-span-2 flex gap-2 items-center ">
           <input
@@ -55,9 +52,7 @@ export const PaymentForm = () => {
           <p className="text-gray-400 text-xs hidden sm:block">
             کد وارد شده در کادر روبه رو را وارد کنید .
           </p>
-          <p className="text-red-400 font-light text-xs">
-            {errors.securityCode?.message}
-          </p>
+          <ErrorMessage error={errors.securityCode?.message} />
         </div>
         <div className="col-span-2 flex gap-2 items-center ">
           <input
@@ -75,9 +70,7 @@ export const PaymentForm = () => {
           <p className="text-gray-400 text-xs hidden sm:block">
             رمز پویا رمز یکبار مصرفی ست که به جای رمز دوم استفاده می شود .
           </p>
-          <p className="text-red-400 font-light text-xs">
-            {errors.bankCode?.message}
-          </p>
+          <ErrorMessage error={errors.bankCode?.message} />
         </div>
         <div className="col-span-2 flex gap-2 items-center">
           <input
