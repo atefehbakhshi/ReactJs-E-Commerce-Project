@@ -46,7 +46,7 @@ export const usePayment = () => {
   });
 
   const handlePayment = async (data: any) => {
-    const order = JSON.parse(localStorage.getItem("order"));
+    const order = JSON.parse(localStorage.getItem("order") || "[]");
     const products = [...order.products];
 
     // remove limitCount property

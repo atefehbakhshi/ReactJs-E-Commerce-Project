@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { loginUser } from "../../api/services/index";
 import { LoginI } from "../../type/interface";
+import { FieldValues } from "react-hook-form/dist/types";
 
 const loginSchema = yup.object({
   username: yup.string().required("نام کاربری الزامیست ."),
@@ -30,7 +31,7 @@ export const useAuth = () => {
     mode: "onChange",
   });
 
-  const handleLoginUser = async (data: LoginI) => {
+  const handleLoginUser = async (data: FieldValues | LoginI) => {
     try {
       const res = await loginUser(data);
       if (res.data?.accessToken) {

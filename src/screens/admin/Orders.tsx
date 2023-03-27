@@ -5,13 +5,14 @@ import { EmptyList } from "../../components/notices";
 import Pagination from "../../components/pagination";
 import { OrdersTable } from "../../components/tables";
 import { getOrdersList } from "../../store/actions/data-actions";
+import { AppDispatch, RootState } from "../../type/type";
 
 export const Orders = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [isDelivered, setIsDelivered] = useState(false);
   const [ordersDate, setOrdersDate] = useState("desc");
   const [page, setPage] = useState(1);
-  const { ordersdata } = useSelector((state) => state.data);
+  const { ordersdata } = useSelector((state:RootState) => state.data);
 
   const filtredList = (text: string) => {
     setOrdersDate(text);

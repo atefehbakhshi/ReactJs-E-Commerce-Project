@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "../../../api/services/features/delete";
 import { getAllProducts } from "../../../store/actions/data-actions";
 import { setShowModal } from "../../../store/slices/modal-slice";
+import { AppDispatch, RootState } from "../../../type/type";
 import { Button } from "../../buttons";
 
 export const DeleteProduct = () => {
-  const dispatch = useDispatch();
-  const { tempId } = useSelector((state) => state.modal);
-  const { allProducts } = useSelector((state) => state.data);
+  const dispatch = useDispatch<AppDispatch>();
+  const { tempId } = useSelector((state: RootState) => state.modal);
+  const { allProducts } = useSelector((state: RootState) => state.data);
 
   const closeModal = () => {
     dispatch(setShowModal(false));

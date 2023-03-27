@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchDataById } from "../../api/services";
 import { addOrderProduct } from "../../store/slices/order-slice";
-import { BasketProductI, ProductI } from "../../type/interface";
+import { BasketProductI, ProductGetFromDbI } from "../../type/interface";
+import { RootState } from "../../type/type";
 import { Button } from "../buttons";
 import { categoryText, subcategoryText } from "../constants";
 import { SlideSlider } from "../slider";
@@ -17,10 +18,10 @@ const getData = async (id: number) => {
 
 const ProductDetail = () => {
   const [count, setcount] = useState(0);
-  const [product, setProduct] = useState<ProductI[] | []>([]);
+  const [product, setProduct] = useState<ProductGetFromDbI[] | []>([]);
   const dispatch = useDispatch();
   const { productId } = useParams();
-  const { list } = useSelector((state) => state.order);
+  const { list } = useSelector((state: RootState) => state.order);
 
   useEffect(() => {
     if (productId) {
@@ -36,8 +37,8 @@ const ProductDetail = () => {
     }
   }, [count]);
 
-  const addToBasket = (product: ProductI) => {
-    const newOrderList = list.filter(
+  const addToBasket = (product: ProductGetFromDbI) => {
+    const newOrderList:BasketProductI[] = list.filter(
       (i: BasketProductI) => i.id !== product.id
     );
     const order = {

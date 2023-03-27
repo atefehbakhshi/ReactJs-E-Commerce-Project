@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { RootState } from "../../type/type";
 import { getAuthToken } from "../../utile/auth";
 
 import logo from "/img/logo/logo.png";
@@ -18,7 +19,7 @@ export const Header = () => {
   };
 
   // get length of order list
-  const { list } = useSelector((state) => state.order);
+  const { list } = useSelector((state: RootState) => state.order);
 
   return (
     <header className="flex justify-between p-3 shadow sticky top-0 z-50 md:px-8">

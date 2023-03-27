@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchOrdersDataForCharts } from "../../api/services";
 import { OrdersChart } from "../../components/charts";
+import { DataI, OrderI } from "../../type/interface";
 
 const getData = async () => {
   const res = await fetchOrdersDataForCharts();
@@ -16,7 +17,7 @@ const assortment = (res: []) => {
   const remain = h + m + s + ms;
   const sevenDaysAgo = Date.now() + remain + -7 * 24 * 60 * 60 * 1000;
 
-  const data = {
+  const data: DataI = {
     sun: [],
     mon: [],
     thu: [],
@@ -30,7 +31,7 @@ const assortment = (res: []) => {
     ({ createdAt }) => createdAt > sevenDaysAgo
   );
 
-  listOfSevenDaysAgo.forEach((i) => {
+  listOfSevenDaysAgo.forEach((i: OrderI) => {
     switch (new Date(i.createdAt).getDay()) {
       case 0:
         data.sun.push(i);
@@ -61,7 +62,7 @@ const assortment = (res: []) => {
   return data;
 };
 
-const calculateCount = (list) => {
+const calculateCount = (list: OrderI[] | []) => {
   let totalCount = 0;
   list.forEach((i) => {
     i.products.forEach((i) => (totalCount += i.count));
@@ -69,15 +70,15 @@ const calculateCount = (list) => {
   return totalCount;
 };
 
-const calculatePrice = (list) => {
+const calculatePrice = (list: OrderI[] | []) => {
   let totalPrice = 0;
   list.forEach((i) => (totalPrice += i.prices));
   return totalPrice;
 };
 
 export const Main = () => {
-  const [productCount, setProductCount] = useState([]);
-  const [productPrice, setProductPrice] = useState([]);
+  const [productCount, setProductCount] = useState<number[] | []>([]);
+  const [productPrice, setProductPrice] = useState<number[] | []>([]);
 
   useEffect(() => {
     getData().then((res) => {

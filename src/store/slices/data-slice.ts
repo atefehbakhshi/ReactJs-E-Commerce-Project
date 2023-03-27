@@ -23,25 +23,26 @@ const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {},
-  extraReducers: {
-    [getOrdersList.pending]: (state) => {
-      state.ordersdata.status = "pending";
-    },
-    [getOrdersList.fulfilled]: (state, action) => {
-      state.ordersdata.list = action.payload.data;
-      state.ordersdata.count = action.payload.count;
-      state.ordersdata.status = "success";
-    },
-    [getAllProducts.pending]: (state) => {
-      state.allProducts.status = "pending";
-    },
-    [getAllProducts.fulfilled]: (state, action) => {
-      state.allProducts.list = action.payload.data;
-      state.allProducts.count = action.payload.count;
-      state.allProducts.page = action.payload.page;
-      state.allProducts.productCategory = action.payload.productCategory;
-      state.allProducts.status = "success";
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getOrdersList.pending, (state) => {
+        state.ordersdata.status = "pending";
+      })
+      .addCase(getOrdersList.fulfilled, (state, action) => {
+        state.ordersdata.list = action.payload.data;
+        state.ordersdata.count = action.payload.count;
+        state.ordersdata.status = "success";
+      })
+      .addCase(getAllProducts.pending, (state) => {
+        state.allProducts.status = "pending";
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.allProducts.list = action.payload.data;
+        state.allProducts.count = action.payload.count;
+        state.allProducts.page = action.payload.page;
+        state.allProducts.productCategory = action.payload.productCategory;
+        state.allProducts.status = "success";
+      });
   },
 });
 

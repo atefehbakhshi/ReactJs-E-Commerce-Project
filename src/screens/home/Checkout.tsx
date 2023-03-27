@@ -1,6 +1,6 @@
 import { Button } from "../../components/buttons";
 import Input from "../../components/input";
-import { useCheckout } from "../../hooks/features/use-checkout";
+import { useCheckout } from "../../hooks";
 
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
@@ -13,11 +13,20 @@ export const Checkout = () => {
   const { register, handleSubmit, handleAddOrder, errors, getDate } =
     useCheckout();
 
-  const [value, setValue] = useState({ format: "MM/DD/YYYY" });
+  const [value, setValue] = useState<{
+    format?: string;
+    persian?: string;
+    date?: string;
+  }>({
+    format: "MM/DD/YYYY",
+  });
   const [hasDate, setHasDate] = useState(false);
   const [isValidDate, setIsValidDate] = useState<null | boolean>(null);
 
-  const convert = (date, format = value.format) => {
+  const convert = (
+    date: DateObject | DateObject[],
+    format: string | undefined = value.format
+  ) => {
     let object = { date, format };
     setValue({
       persian: new DateObject(object).convert(persian, persian_en).format(),
@@ -26,6 +35,7 @@ export const Checkout = () => {
   };
 
   useEffect(() => {
+    // shamsi.jalaliToGregorian((jy: any, jm: any, jd: any))
     if (hasDate) {
       const selectedDate = shamsi
         .jalaliToGregorian(

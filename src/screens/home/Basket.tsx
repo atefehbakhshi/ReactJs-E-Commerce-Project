@@ -5,9 +5,10 @@ import { Button } from "../../components/buttons";
 import { EmptyBasket } from "../../components/notices";
 import { BasketTable } from "../../components/tables";
 import { OrderProductI } from "../../type/interface";
+import { RootState } from "../../type/type";
 
 export const Basket = () => {
-  const { list } = useSelector((state) => state.order);
+  const { list } = useSelector((state:RootState) => state.order);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchDataById } from "../../../api/services";
 import { useAddEditProduct } from "../../../hooks";
+import { RootState } from "../../../type/type";
 import { Button } from "../../buttons";
 import ErrorMessage from "../../error-message";
 import Input from "../../input";
@@ -9,7 +10,7 @@ import Input from "../../input";
 export const AddEditProduct = () => {
   const [mode, setMode] = useState("add");
   const [subcategory, setSubcategory] = useState(["زنانه", "مردانه"]);
-  const { tempId } = useSelector((state) => state.modal);
+  const { tempId } = useSelector((state: RootState) => state.modal);
   const {
     register,
     handleSubmit,

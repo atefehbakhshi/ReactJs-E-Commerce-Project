@@ -1,8 +1,5 @@
 import { instance } from "../../constants";
 
-// refresh token
-export const getProtection = () => instance.get("/protection");
-
 // get products of each category by limit length
 export const fetchDataByCategory = (
   id: number | string,
@@ -13,9 +10,9 @@ export const fetchDataByCategory = (
     `/products?_sort=createdAt&_order=desc&&category=${id}&&_page=${page}&_limit=${limit}`
   );
 
-// get  products for each subCategory page by limit length
+// get  products for each subCategory by limit length
 export const fetchDataBySubcategory = (
-  id: number,
+  id: number | string,
   page: number,
   limit: number
 ) =>
@@ -29,25 +26,8 @@ export const fetchAllProductsData = (page: number, limit: number) =>
     `/products?_sort=createdAt&_order=desc&&_page=${page}&_limit=${limit}`
   );
 
-// get orders list
-export const fetchOrdersData = (
-  order: string,
-  page: number,
-  limit: number,
-  delivered: boolean
-) =>
-  instance.get(
-    `/orders?_sort=createdAt&_order=${order}&&_page=${page}&_limit=${limit}&&delivered=${delivered}`
-  );
-
-export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
-
 // get product data by id
 export const fetchDataById = (id: number) => instance.get(`/products?id=${id}`);
-
-// get user data by id
-export const fetchUserDataById = (id: number) =>
-  instance.get(`/orders?id=${id}`);
 
 // get  products for each subCategory page by sorting date or price
 export const fetchFiltredData = (
@@ -82,3 +62,21 @@ export const fetchRangeData = (
   instance.get(
     `/products?_sort=createdAt&_order=desc&&subcategory=${id}&&price_gte=0&price_lte=${max}&&_page=${page}&_limit=${limit}`
   );
+
+// get orders list
+export const fetchOrdersData = (
+  order: string,
+  page: number,
+  limit: number,
+  delivered: boolean
+) =>
+  instance.get(
+    `/orders?_sort=createdAt&_order=${order}&&_page=${page}&_limit=${limit}&&delivered=${delivered}`
+  );
+
+// data for charts
+export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
+
+// get user data by id
+export const fetchUserDataById = (id: number) =>
+  instance.get(`/orders?id=${id}`);

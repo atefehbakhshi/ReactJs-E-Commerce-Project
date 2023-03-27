@@ -12,7 +12,7 @@ let persianNumbers = [
 ];
 
 export const perToEn = (str: string) => {
-  for (let i = 0; i < 10; i++) {
+  for (let i: any = 0; i < 10; i++) {
     str = str.replace(persianNumbers[i], i);
   }
   return str.split("٬").join("");

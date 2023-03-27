@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchDataByCategory } from "../../api/services";
-import { ProductI } from "../../type/interface";
+import { ProductGetFromDbI } from "../../type/interface";
 import { Button } from "../buttons";
 
 const getData = async (id: number) => {
@@ -9,11 +9,11 @@ const getData = async (id: number) => {
   return res.data;
 };
 
-const Adds: FC<{ id: number }> = ({ id }) => {
-  const [product, setProduct] = useState<ProductI[] | []>([]);
+const Adds: FC<{ id: string }> = ({ id }) => {
+  const [product, setProduct] = useState<ProductGetFromDbI[] | []>([]);
 
   useEffect(() => {
-    getData(id).then((res) => setProduct(res));
+    getData(+id).then((res) => setProduct(res));
   }, []);
 
   return (

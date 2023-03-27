@@ -1,2 +1,2 @@
-export { AdminLink } from "./AdminLink";
-export { SidebarLink } from "./SidebarLink";
+export { AdminLink } from "./features/AdminLink";
+export { SidebarLink } from "./features/SidebarLink";

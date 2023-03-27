@@ -12,7 +12,7 @@ export const PaymentResult = () => {
 
   useEffect(() => {
     if (result === "failure") {
-      const newOrder = JSON.parse(localStorage.getItem("order"));
+      const newOrder = JSON.parse(localStorage.getItem("order") || "[]");
       dispatch(addOrderProduct(newOrder.products));
     }
   }, []);

@@ -4,6 +4,7 @@ import { fetchUserDataById, editUserDataById } from "../../../api/services";
 import { getOrdersList } from "../../../store/actions/data-actions";
 import { setShowModal } from "../../../store/slices/modal-slice";
 import { OrderI } from "../../../type/interface";
+import { AppDispatch, RootState } from "../../../type/type";
 import { Button } from "../../buttons";
 import { BasketTable } from "../../tables";
 
@@ -13,9 +14,9 @@ const getData = async (id: number) => {
 };
 
 export const OrdersInfo = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [userInfo, setUserInfo] = useState<OrderI | null>(null);
-  const { tempId } = useSelector((state) => state.modal);
+  const { tempId } = useSelector((state:RootState) => state.modal);
 
   useEffect(() => {
     getData(tempId).then((res) => setUserInfo(res[0]));

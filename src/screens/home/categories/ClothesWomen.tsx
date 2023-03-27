@@ -3,7 +3,7 @@ import Product from "../../../components/product/Product";
 import { useEffect, useState } from "react";
 import Pagination from "../../../components/pagination";
 import { useGetDataBySubcategory } from "../../../hooks";
-import { ProductI } from "../../../type/interface";
+import { ProductGetFromDbI } from "../../../type/interface";
 
 const subcategoryNo = 7;
 export const ClothesWomen = () => {
@@ -27,7 +27,7 @@ export const ClothesWomen = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 mb-4 py-8 sm:px-8 sm:grid-cols-3">
-          {list.map((product: ProductI) => (
+          {list.map((product: ProductGetFromDbI) => (
             <Product
               key={product.id}
               img={product.thumbnail}

@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../../../store/slices/modal-slice";
+import { RootState } from "../../../type/type";
 import { AddEditProduct, DeleteProduct, OrdersInfo } from "../index";
 
 const modalList = [
@@ -23,7 +24,7 @@ const modalList = [
 
 export const ModalManager = () => {
   const dispatch = useDispatch();
-  const { modalName } = useSelector((state) => state.modal);
+  const { modalName } = useSelector((state: RootState) => state.modal);
   const selectedModal = modalList.find(({ id }) => id === modalName);
 
   const closeModal = () => {

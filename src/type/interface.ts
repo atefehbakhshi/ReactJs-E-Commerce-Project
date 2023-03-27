@@ -1,3 +1,11 @@
+import { ErrorMessageT } from "./type";
+
+// login
+export interface LoginI {
+  username: string;
+  password: string;
+}
+
 export interface SidebarLinkParams {
   mainPath: string;
   firstSubPath: string;
@@ -22,17 +30,13 @@ export interface PaymentButtonParams
   colSpan: string;
 }
 
-export interface LoginParams {
-  username: string;
-  password: string;
-}
-
 export interface ProductParams {
   img: string;
   title: string;
   price: number;
   id: number | undefined;
 }
+
 export interface BasketProductI {
   count: number;
   id: number;
@@ -55,21 +59,67 @@ export interface InputParams
   type: string;
   id?: string;
   label: string;
-  error: any;
+  error: ErrorMessageT;
   validation?: {};
   accept?: string;
   multiple?: boolean;
 }
 
-// Thunks
+export interface PaymentInputParams
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  mainText: string;
+  subText: string;
+  error?: ErrorMessageT;
+  validation?: {};
+}
+
+// Thunks - actions
 export interface GetOrderList {
   ordersDate: string;
   page: number;
   isDelivered: boolean;
 }
+
 export interface GetAllProducts {
   page: number;
   productCategory: string;
+}
+
+export interface CategoryI {
+  path: string;
+  text: string;
+  icon: string;
+  id: number | string;
+  landing: string;
+}
+
+interface ProductI {
+  name: string;
+  brand: string;
+  price: number;
+  quantity: number;
+  category: number;
+  description: string;
+}
+
+export interface ProductGetFromDbI extends ProductI {
+  image: string[];
+  thumbnail: string;
+  createdAt: number;
+  id: number;
+  subcategory: number;
+}
+
+export interface ProductSendToDbI extends ProductI {
+  image: string[];
+  thumbnail: string;
+  subcategory: number;
+}
+
+export interface ProductGetFromAdmin extends ProductI {
+  image: any;
+  thumbnail: any;
+  subcategory: string;
 }
 
 // basket
@@ -80,34 +130,6 @@ export interface OrderProductI {
   price: number;
   image: string;
   limitCount?: number;
-}
-
-export interface ProductI {
-  name: string;
-  brand: string;
-  image: string[];
-  thumbnail: string;
-  price: number;
-  quantity: number;
-  createdAt?: number;
-  id?: number;
-  category: number;
-  subcategory: number;
-  description: string;
-}
-
-export interface GetProductI {
-  name: string;
-  brand: string;
-  image: any;
-  thumbnail: any;
-  price: number;
-  quantity: number;
-  createdAt: number;
-  id: number;
-  category: number;
-  subcategory: string;
-  description: string;
 }
 
 export interface OrderI {
@@ -123,21 +145,25 @@ export interface OrderI {
   id: number;
 }
 
-export interface CategoryI {
-  path: string;
-  text: string;
-  icon: string;
-  id: number | string;
-  landing: string;
-}
-
 export interface BasketTableI {
   selectedList: OrderProductI[];
   location?: string;
 }
 
-// login
-export interface LoginI {
-  username: string;
-  password: string;
+export interface UserInfo {
+  name: string;
+  family: string;
+  address: string;
+  phone: string | number;
+}
+
+// for charts in main page
+export interface DataI {
+  sun: OrderI[];
+  mon: OrderI[];
+  thu: OrderI[];
+  wed: OrderI[];
+  tue: OrderI[];
+  fri: OrderI[];
+  sat: OrderI[];
 }

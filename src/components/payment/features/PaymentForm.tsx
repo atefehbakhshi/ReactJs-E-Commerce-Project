@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { usePayment } from "../../../hooks/features/use-payment";
+import { usePayment } from "../../../hooks";
 import ErrorMessage from "../../error-message";
 import { Buttons, Inputs } from "../index";
 

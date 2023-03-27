@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
 import { perToEn } from "../../utile/transferNumbers";
-import { ProductI } from "../../type/interface";
+import { ProductGetFromDbI } from "../../type/interface";
 
 const Td: FC<{
-  product: ProductI;
+  product: ProductGetFromDbI;
   editValue: number;
-  editList: ProductI[];
-  setEditList: (list: ProductI[]) => void;
+  editList: ProductGetFromDbI[];
+  setEditList: (list: ProductGetFromDbI[]) => void;
   text: string;
 }> = ({ product, editValue, editList, setEditList, text }) => {
   const [editMode, setEditMode] = useState(true);
@@ -28,11 +28,13 @@ const Td: FC<{
           editValue.toLocaleString("fa").split("٬").join("")
         ) {
           const list = [...editList];
-          const filtredList = list.filter((i: ProductI) => i.id !== product.id);
+          const filtredList = list.filter(
+            (i: ProductGetFromDbI) => i.id !== product.id
+          );
 
           const newValue = perToEn(e.target.innerText);
           if (newValue.match("^[0-9]*$") !== null) {
-            let editedValue: ProductI = { ...product };
+            let editedValue: ProductGetFromDbI = { ...product };
             if (text === "price") {
               editedValue = {
                 ...product,
