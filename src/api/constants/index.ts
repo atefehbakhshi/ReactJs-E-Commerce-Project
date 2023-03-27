@@ -34,10 +34,28 @@ instance.interceptors.response.use(
     } = error;
 
     if (status === 401 && config.url !== "/auth/refresh-token" && !sent) {
+      if (config.url.startsWith("/products") && config.method === "get") {
+        localStorage.removeItem("token");
+        config.headers.token = undefined;
+
+        instance.defaults.headers.refreshToken =
+          localStorage.getItem("refresh_token");
+
+        instance.post("/auth/refresh-token").then(({ data }) => {
+          const { accessToken } = data;
+          localStorage.setItem("token", accessToken);
+          window.location.reload();
+        });
+
+        return instance(config);
+      }
+
       sent = true;
       localStorage.removeItem("token");
+
       instance.defaults.headers.refreshToken =
         localStorage.getItem("refresh_token");
+
       instance.post("/auth/refresh-token").then(({ data }) => {
         const { accessToken } = data;
         localStorage.setItem("token", accessToken);
@@ -46,6 +64,8 @@ instance.interceptors.response.use(
     } else if (config.url === "/auth/refresh-token") {
       localStorage.removeItem("refresh_token");
       window.location.href = "/admin/login";
+    } else if (status === 404 || status === 500) {
+      window.location.href = "/error";
     } else {
       return Promise.reject(error);
     }
