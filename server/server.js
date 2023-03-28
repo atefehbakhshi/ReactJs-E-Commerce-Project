@@ -138,7 +138,7 @@ server.use((req, res, next) => {
   // Continue to JSON Server router
   next();
 });
-// req => www.felan.com:443 => post => /auth/login =>
+
 let refreshTokens = [];
 // Authentication Routes
 server.post("/auth/login", async function (req, res, next) {
@@ -163,15 +163,11 @@ server.post("/auth/login", async function (req, res, next) {
     }
   );
   refreshTokens.push(refreshToken);
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-  });
-  res.json({ accessToken });
+  res.json({ accessToken, refreshToken });
 });
 
 server.post("/auth/refresh-token", async function (req, res, next) {
-  // const refreshToken = req.header("refreshToken");
-  const refreshToken = req.cookies["refreshToken"];
+  const refreshToken = req.header("refreshToken");
   console.log(refreshToken);
 
   if (!refreshToken) {

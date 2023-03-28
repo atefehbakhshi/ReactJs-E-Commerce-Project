@@ -9,7 +9,7 @@
       ],
       "thumbnail": "389a56f049e47159c2a46639f8a4c967",
       "price": 456000,
-      "quantity": 14,
+      "quantity": 22,
       "createdAt": 1643373068134,
       "id": 1,
       "category": 3,
@@ -24,8 +24,8 @@
         "7e0f3c81755d58d818ff39f923372dfb"
       ],
       "thumbnail": "7e0f3c81755d58d818ff39f923372dfb",
-      "price": 666000,
-      "quantity": 0,
+      "price": 100000,
+      "quantity": 2,
       "createdAt": 1679044499940,
       "id": 2,
       "category": 3,
@@ -40,8 +40,8 @@
         "184f24f857ff0014d07f742d02516f19"
       ],
       "thumbnail": "01836bef014e3b59bebaef9b51037a01",
-      "price": 670000,
-      "quantity": 3,
+      "price": 200000,
+      "quantity": 1,
       "createdAt": 1679044443801,
       "id": 3,
       "category": 3,
@@ -56,7 +56,7 @@
         "e8ce6e86978a3c20bce5d21b36cb3730"
       ],
       "thumbnail": "f53b95d2821d117bcce3e4476957085c",
-      "price": 34000,
+      "price": 360000,
       "quantity": 56,
       "createdAt": 1643373068134,
       "id": 6,
@@ -72,8 +72,8 @@
         "61f2b97ec146b1958c3298f2b1df748a"
       ],
       "thumbnail": "0ef4571f2fc20ee341b2dcc02908a33a",
-      "price": 20000,
-      "quantity": 4,
+      "price": 30000,
+      "quantity": 9,
       "createdAt": 1679044376082,
       "id": 7,
       "category": 3,
@@ -137,7 +137,7 @@
       ],
       "thumbnail": "27277585ecea914330c67a3c49167053",
       "price": 258900,
-      "quantity": 12,
+      "quantity": 2,
       "createdAt": 1643373068134,
       "id": 9,
       "category": 2,
@@ -153,7 +153,7 @@
       ],
       "thumbnail": "266765ba10b8360d6eed558a8dff8a63",
       "price": 165000,
-      "quantity": 18,
+      "quantity": 8,
       "createdAt": 1643373068134,
       "id": 10,
       "category": 2,
@@ -313,7 +313,7 @@
       ],
       "thumbnail": "728dc4f5467249915c43b08fac8cf4d4",
       "price": 750000,
-      "quantity": 1,
+      "quantity": 0,
       "createdAt": 1643373068134,
       "id": 20,
       "category": 1,
@@ -831,6 +831,21 @@
       "category": 5,
       "subcategory": 9,
       "description": "<p>تستتتتت</p>"
+    },
+    {
+      "name": "admin",
+      "brand": "g",
+      "thumbnail": "96155364ea0b8e25460d094f5032621e",
+      "image": [
+        "5945e2cbd211027e561b2071df3823fc",
+        "29223c80c051430cc8665b4f6124e48e"
+      ],
+      "price": 100000,
+      "quantity": 11,
+      "category": 3,
+      "subcategory": 5,
+      "description": "1",
+      "id": 53
     }
   ],
   "category": [
@@ -1078,7 +1093,7 @@
         }
       ],
       "prices": 1270000,
-      "delivered": true,
+      "delivered": false,
       "createdAt": 1678083540000,
       "id": 7
     }
