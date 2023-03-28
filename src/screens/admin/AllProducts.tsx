@@ -5,12 +5,13 @@ import Pagination from "../../components/pagination";
 import { ProductsTable } from "../../components/tables";
 import { getAllProducts } from "../../store/actions/data-actions";
 import { setModalName, setShowModal } from "../../store/slices/modal-slice";
+import { AppDispatch, RootState } from "../../type/type";
 
 export const AllProducts = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [page, setPage] = useState(1);
   const [productCategory, setProductCategory] = useState("all");
-  const { allProducts } = useSelector((state) => state.data);
+  const { allProducts } = useSelector((state: RootState) => state.data);
 
   const filtredList = (id: string) => {
     setProductCategory(id);

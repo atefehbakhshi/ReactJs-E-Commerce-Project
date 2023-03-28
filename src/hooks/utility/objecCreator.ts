@@ -1,4 +1,6 @@
+import { FieldValues } from "react-hook-form/dist/types";
 import { uploadImage } from "../../api/services";
+import { ProductGetFromAdmin, ProductGetFromDbI } from "../../type/interface";
 
 const uploadHandler = async (img: any) => {
   let formData = new FormData();
@@ -7,7 +9,10 @@ const uploadHandler = async (img: any) => {
   return { data: res.data.filename, status: res.status };
 };
 
-export const objectEditor = async (data, defaultImages) => {
+export const objectEditor = async (
+  data: FieldValues | ProductGetFromAdmin,
+  defaultImages: { image: string[]; thumbnail: string }
+) => {
   let thumbnail;
   let firstImage;
   let secondImage;
@@ -49,7 +54,9 @@ export const objectEditor = async (data, defaultImages) => {
   return obj;
 };
 
-export const objectCreator = async (data) => {
+export const objectCreator = async (
+  data: FieldValues | ProductGetFromAdmin
+) => {
   const thumbnail = await uploadHandler(data.thumbnail[0]);
   const firstImage = await uploadHandler(data.image[0]);
   const secondImage = await uploadHandler(data.image[1]);

@@ -1,15 +1,20 @@
 import { Icon } from "@iconify/react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import {
   getId,
   setModalName,
   setShowModal,
 } from "../../../store/slices/modal-slice";
+import { OrderI } from "../../../type/interface";
 
-export const OrdersTable = ({ list, onFiltredList }) => {
+export const OrdersTable: FC<{
+  list: OrderI[];
+  onFiltredList: (e: string) => void;
+}> = ({ list, onFiltredList }) => {
   const dispatch = useDispatch();
 
-  const showOrdersInfo = (id) => {
+  const showOrdersInfo = (id: number) => {
     dispatch(setShowModal(true));
     dispatch(setModalName("ordersInfo"));
     dispatch(getId(id));
@@ -38,7 +43,7 @@ export const OrdersTable = ({ list, onFiltredList }) => {
         </tr>
       </thead>
       <tbody>
-        {list.map((user, index) => {
+        {list.map((user: OrderI, index: number) => {
           return (
             <tr
               key={user.id}

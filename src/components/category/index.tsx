@@ -1,16 +1,17 @@
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   fetchDataByCategory,
   fetchDataBySubcategory,
 } from "../../api/services";
+import { CategoryI, ProductGetFromDbI } from "../../type/interface";
 import { Button } from "../buttons";
 import Product from "../product/Product";
 
 const DATA_LIMIT = 6;
 
-const getData = async (id, landing) => {
+const getData = async (id: number | string, landing: string) => {
   let res;
   if (landing === "main") {
     res = await fetchDataByCategory(id, 1, 6);
@@ -23,7 +24,7 @@ const getData = async (id, landing) => {
   return [];
 };
 
-const Category = ({ path, text, icon, id, landing }) => {
+const Category: FC<CategoryI> = ({ path, text, icon, id, landing }) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const Category = ({ path, text, icon, id, landing }) => {
         <span className="loader"></span>
       ) : (
         <div className="grid grid-cols-2 gap-4 mb-4 sm:p-8 sm:grid-cols-3">
-          {list.map((product) => (
+          {list.map((product: ProductGetFromDbI) => (
             <Product
               key={product.id}
               img={product.thumbnail}

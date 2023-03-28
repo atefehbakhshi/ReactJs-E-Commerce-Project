@@ -6,8 +6,7 @@ import { PriceQuantityTable } from "../../components/tables";
 import { PRICE_QUANTITY_PER_PAGE } from "../../constants";
 import { editProductDataById } from "../../api/services";
 import { toast } from "react-toastify";
-
-// const [res1, res2] = await Promiss.all([])
+import { ProductGetFromDbI } from "../../type/interface";
 
 const getData = async (page: number, limit: number) => {
   const res = await fetchAllProductsData(page, limit);
@@ -19,7 +18,7 @@ export const PriceQuantity = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [hasEditItem, setHasEditItem] = useState(false);
-  const [editedList, SetEditedList] = useState([]);
+  const [editedList, SetEditedList] = useState<ProductGetFromDbI[] | []>([]);
   const [editedMode, setEditedMode] = useState("doing");
 
   useEffect(() => {

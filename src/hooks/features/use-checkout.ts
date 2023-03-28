@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../utility/schema";
 import { useSelector } from "react-redux";
-import { OrderProductI } from "../../type/interface";
+import { OrderProductI, UserInfo } from "../../type/interface";
+import { RootState } from "../../type/type";
+import { FieldValues } from "react-hook-form/dist/types";
 
 let expectDate = 0;
 
@@ -20,31 +22,26 @@ export const useCheckout = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(userSchema), mode: "onChange" });
-  const { list } = useSelector((state) => state.order);
+  const { list } = useSelector((state: RootState) => state.order);
 
-  // remove limitCount property
-  const editList = [...list].map((item) => {
-    const { limitCount, ...edited } = item;
-    return edited;
-  });
+  const totalPrice = calculatePrice(list);
 
-  const totalPrice = calculatePrice(editList);
-
-  const getDate = (date) => {
+  const getDate = (date: string) => {
     expectDate = new Date(`${date}`).getTime();
   };
 
-  const handleAddOrder = (data) => {
+  const handleAddOrder = (data: FieldValues |UserInfo) => {
     const newOrder = {
       username: data.name,
       lastname: data.family,
       address: data.address,
       phone: data.phone,
       expectAt: expectDate,
-      products: editList,
+      products: list,
       prices: totalPrice,
       delivered: false,
     };
+    localStorage.setItem("order", JSON.stringify(newOrder));
     window.location.href = "/payment";
   };
 

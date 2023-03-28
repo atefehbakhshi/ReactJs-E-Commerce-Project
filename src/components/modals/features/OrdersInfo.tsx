@@ -3,33 +3,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserDataById, editUserDataById } from "../../../api/services";
 import { getOrdersList } from "../../../store/actions/data-actions";
 import { setShowModal } from "../../../store/slices/modal-slice";
+import { OrderI } from "../../../type/interface";
+import { AppDispatch, RootState } from "../../../type/type";
 import { Button } from "../../buttons";
 import { BasketTable } from "../../tables";
 
-const getData = async (id) => {
+const getData = async (id: number) => {
   const res = await fetchUserDataById(id);
   return res.data;
 };
 
 export const OrdersInfo = () => {
-  const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState(null);
-  const { tempId } = useSelector((state) => state.modal);
+  const dispatch = useDispatch<AppDispatch>();
+  const [userInfo, setUserInfo] = useState<OrderI | null>(null);
+  const { tempId } = useSelector((state:RootState) => state.modal);
 
   useEffect(() => {
     getData(tempId).then((res) => setUserInfo(res[0]));
   }, []);
 
   const deliverdData = () => {
-    const editedData = userInfo;
-    editedData.delivered = true;
-    editUserDataById(tempId, editedData);
-    dispatch(setShowModal(false));
+    if (userInfo) {
+      const editedData = userInfo;
+      editedData.delivered = true;
+      editUserDataById(tempId, editedData);
+      dispatch(setShowModal(false));
+    }
+
     const required = {
       ordersDate: "desc",
       page: 1,
       isDelivered: false,
     };
+
     dispatch(getOrdersList(required));
   };
 

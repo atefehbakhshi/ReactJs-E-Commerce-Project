@@ -4,7 +4,9 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getProtection, loginUser } from "../../api/services/index";
+import { loginUser } from "../../api/services/index";
+import { LoginI } from "../../type/interface";
+import { FieldValues } from "react-hook-form/dist/types";
 
 const loginSchema = yup.object({
   username: yup.string().required("نام کاربری الزامیست ."),
@@ -17,9 +19,6 @@ export const useAuth = () => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       navigate("/admin");
-    } else {
-      // use refresh token
-      getProtection();
     }
   }, [localStorage.getItem("token")]);
 
@@ -32,7 +31,7 @@ export const useAuth = () => {
     mode: "onChange",
   });
 
-  const handleLoginUser = async (data) => {
+  const handleLoginUser = async (data: FieldValues | LoginI) => {
     try {
       const res = await loginUser(data);
       if (res.data?.accessToken) {

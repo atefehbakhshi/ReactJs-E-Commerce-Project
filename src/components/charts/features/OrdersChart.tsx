@@ -7,7 +7,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { _DeepPartialObject } from "chart.js/dist/types/utils";
+import { FC } from "react";
 import { Bar } from "react-chartjs-2";
+import { ChartOptionsT } from "../../../type/type";
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +31,7 @@ const labels = [
   "جمعه",
 ];
 
-const options = {
+const options: ChartOptionsT = {
   responsive: true,
   plugins: {
     legend: {
@@ -41,7 +44,10 @@ const options = {
   },
 };
 
-export const OrdersChart = ({ chartDate, title }) => {
+export const OrdersChart: FC<{ chartDate: number[]; title: string }> = ({
+  chartDate,
+  title,
+}) => {
   const data = {
     labels,
     datasets: [

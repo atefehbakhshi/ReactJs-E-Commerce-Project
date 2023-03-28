@@ -7,9 +7,9 @@ import {
   fetchRangeData,
 } from "../../api/services";
 import { DATA_ON_PRODUCTS_PAGE } from "../../constants";
-import { GetDataT } from "../../type/type";
+import { GetDataInputsT, GetDataT, RootState } from "../../type/type";
 
-const getData = async (fn, inputs) => {
+const getData = async (fn: any, inputs: GetDataInputsT) => {
   const res = await fn(...inputs);
   return {
     data: res.data,
@@ -21,7 +21,7 @@ export const useGetDataBySubcategory: GetDataT = (subCategoryId, page) => {
   const [list, setList] = useState([]);
   const [count, setCount] = useState(0);
   const { filterList, searchText, rangePrice } = useSelector(
-    (state) => state.category
+    (state: RootState) => state.category
   );
 
   let fn;

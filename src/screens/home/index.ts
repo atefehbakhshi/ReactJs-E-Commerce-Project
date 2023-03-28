@@ -8,6 +8,5 @@ export { Shoes } from "./Shoes";
 export { Product } from "./Product";
 export { Basket } from "./Basket";
 export { Checkout } from "./Checkout";
-export { PaymentFailure } from "./PaymentFailure";
-export { PaymentSuccess } from "./PaymentSuccess";
+export { PaymentResult } from "./PaymentResult";
 export { Error } from "./Error";

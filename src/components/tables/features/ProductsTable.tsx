@@ -6,17 +6,22 @@ import {
   setModalName,
   getId,
 } from "../../../store/slices/modal-slice";
+import { FC } from "react";
+import { ProductGetFromDbI } from "../../../type/interface";
 
-export const ProductsTable = ({ list, onFiltredList }) => {
+export const ProductsTable: FC<{
+  list: ProductGetFromDbI[];
+  onFiltredList: (e: string) => void;
+}> = ({ list, onFiltredList }) => {
   const dispatch = useDispatch();
 
-  const setDeleteProductModal = (id) => {
+  const setDeleteProductModal = (id: number) => {
     dispatch(setShowModal(true));
     dispatch(setModalName("deleteModal"));
     dispatch(getId(id));
   };
 
-  const seEditProductModal = (id) => {
+  const seEditProductModal = (id: number) => {
     dispatch(setShowModal(true));
     dispatch(setModalName("addEditProduct"));
     dispatch(getId(id));

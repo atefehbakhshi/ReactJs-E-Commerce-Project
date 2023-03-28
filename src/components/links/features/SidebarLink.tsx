@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { SidebarLinkParams } from "../../type/interface";
+import { SidebarLinkParams } from "../../../type/interface";
 
 export const SidebarLink: FC<SidebarLinkParams> = ({
   mainPath,

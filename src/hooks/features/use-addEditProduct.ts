@@ -7,19 +7,26 @@ import { setShowModal } from "../../store/slices/modal-slice";
 import { getAllProducts } from "../../store/actions/data-actions";
 import { objectCreator, objectEditor } from "../utility/objecCreator";
 import { CreateSchema } from "../utility/schema";
+import {
+  ProductGetFromAdmin,
+  ProductGetFromDbI,
+  ProductSendToDbI,
+} from "../../type/interface";
+import { AppDispatch, RootState } from "../../type/type";
+import { FieldValues } from "react-hook-form/dist/types";
 
-let defaultImages = {
+let defaultImages: { image: string[]; thumbnail: string } = {
   thumbnail: "",
   image: [],
 };
 
 export const useAddEditProduct = (mode: string) => {
-  const dispatch = useDispatch();
-  const { allProducts } = useSelector((state: any) => state.data);
+  const dispatch = useDispatch<AppDispatch>();
+  const { allProducts } = useSelector((state: RootState) => state.data);
 
   const productSchema = CreateSchema(mode);
 
-  const getEditedProduct = (product) => {
+  const getEditedProduct = (product: ProductGetFromDbI) => {
     defaultImages.thumbnail = product.thumbnail;
     defaultImages.image = product.image;
   };
@@ -34,8 +41,8 @@ export const useAddEditProduct = (mode: string) => {
     mode: "onChange",
   });
 
-  const handleAddProduct = async (data: any) => {
-    let product;
+  const handleAddProduct = async (data: FieldValues | ProductGetFromAdmin) => {
+    let product: ProductSendToDbI | ProductGetFromDbI;
 
     if (mode === "add") {
       product = await objectCreator(data);

@@ -9,7 +9,7 @@ export const AdminRoot = () => {
 
   useEffect(() => {
     if (token) {
-      navigate("/admin/all-products");
+      navigate("/admin");
     } else {
       navigate("/admin/login");
     }

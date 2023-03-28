@@ -1,8 +1,10 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { AdminLinkParams } from "../../type/interface";
 
-export const AdminLink: FC<AdminLinkParams> = ({ path, text }) => {
+export const AdminLink: FC<{ path: string; text: string }> = ({
+  path,
+  text,
+}) => {
   return (
     <NavLink
       to={`/admin/${path}`}
