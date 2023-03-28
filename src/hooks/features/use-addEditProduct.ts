@@ -42,7 +42,6 @@ export const useAddEditProduct = (mode: string) => {
   });
 
   const handleAddProduct = async (data: FieldValues | ProductGetFromAdmin) => {
-    console.log(data);
     let product: ProductSendToDbI | ProductGetFromDbI;
 
     if (mode === "add") {
