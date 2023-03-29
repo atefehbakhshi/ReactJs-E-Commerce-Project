@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const Error = () => {
   return (
     <div className="flex flex-col gap-4 justify-center items-center min-h-[75vh]">
-      <img src={cloud} alt="rainy-cloud" />
+      <img src={cloud} alt="rainy-cloud" className="max-w-[30rem] mx-auto" />
       <p className="text-base font-bold">متاسفانه مشکلی رخ داده است .</p>
       <p className="text-gray-500 text-xs">
         شاید این صفحات برای شما جذاب باشند .
