@@ -7,13 +7,13 @@
 </br>
 | Landing | Category | Product Detail |
 |--|--|--|
-| <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/landing.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/category.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/productDetail.png" width=250px ></kbd> |
+| <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/landing.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/category.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/productDetail.png" width=250px ></kbd> |
 
 <strong>Other Photos </strong>
 </br>
 | Adding Form | Order Form | Sidebar Layout |
 |--|--|--|
-| <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/addingForm.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/orderForm.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/viteTest/blob/master/public/img/git/sidebar.png" width=250px ></kbd> |
+| <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/addingForm.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/orderForm.png" width=250px ></kbd> | <kbd><img src="https://github.com/atefehbakhshi/maktab85-project-atefeh-bakhshi/tree/develop/public/img/git/sidebar.png" width=250px ></kbd> |
 
 </br><h2></h2></br>
 <strong>Project Phase 1 : </strong>
