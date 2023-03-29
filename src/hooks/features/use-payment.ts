@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { addOrder, editQuantity } from "../../api/services";
+import { addOrder, editPriceQuantity } from "../../api/services";
 
 const paymentSchema = yup.object({
   cartNumber: yup
@@ -62,7 +62,7 @@ export const usePayment = () => {
         // edit quantity of products in store
         const res = await Promise.all(
           products.map((i) => {
-            editQuantity(i.id, { quantity: i.limitCount - i.count });
+            editPriceQuantity(i.id, { quantity: i.limitCount - i.count });
           })
         );
 

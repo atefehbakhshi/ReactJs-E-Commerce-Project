@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchAllProductsData } from "../../api/services";
+import { editPriceQuantity, fetchAllProductsData } from "../../api/services";
 import { Button } from "../../components/buttons";
 import Pagination from "../../components/pagination";
 import { PriceQuantityTable } from "../../components/tables";
 import { PRICE_QUANTITY_PER_PAGE } from "../../constants";
-import { editProductDataById } from "../../api/services";
 import { toast } from "react-toastify";
 import { ProductGetFromDbI } from "../../type/interface";
 
@@ -18,7 +17,7 @@ export const PriceQuantity = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [hasEditItem, setHasEditItem] = useState(false);
-  const [editedList, SetEditedList] = useState<ProductGetFromDbI[] | []>([]);
+  const [editedList, SetEditedList] = useState<ProductGetFromDbI[][] | []>([]);
   const [editedMode, setEditedMode] = useState("doing");
 
   useEffect(() => {
@@ -36,12 +35,24 @@ export const PriceQuantity = () => {
   };
 
   const editHandler = async () => {
+    const priceList = editedList[0];
+    const quantityList = editedList[1];
+
     try {
-      const res = await Promise.all(
-        editedList.map((i) => {
-          editProductDataById(i.id, i);
-        })
-      );
+      if (priceList.length > 0) {
+        const res = await Promise.all(
+          priceList.map((i) => {
+            editPriceQuantity(i.id, { price: i.price });
+          })
+        );
+      }
+      if (quantityList.length > 0) {
+        const res = await Promise.all(
+          quantityList.map((i) => {
+            editPriceQuantity(i.id, { quantity: i.quantity });
+          })
+        );
+      }
 
       getData(page, PRICE_QUANTITY_PER_PAGE).then((res) => {
         setList(res.data);
@@ -80,9 +91,7 @@ export const PriceQuantity = () => {
           <PriceQuantityTable
             list={list}
             onContainEditItem={containEditItem}
-            onEditHandler={(list) =>
-              SetEditedList([...list.price, ...list.quantity])
-            }
+            onEditHandler={(list) => SetEditedList([list.price, list.quantity])}
             mode={editedMode}
           />
         )}
