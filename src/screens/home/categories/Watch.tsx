@@ -10,8 +10,8 @@ let subcategoryNo = 1;
 
 export const Watch = () => {
   const [page, setPage] = useState(1);
-  const { category } = useParams();
-  if (category === "women") {
+  const { subcategory } = useParams();
+  if (subcategory === "women") {
     subcategoryNo = 1;
   } else {
     subcategoryNo = 2;
@@ -29,7 +29,7 @@ export const Watch = () => {
   return (
     <div>
       <SubHeader
-        text={`${category === "women" ? "Women Watch" : "Men Watch"}`}
+        text={`${subcategory === "women" ? "Women Watch" : "Men Watch"}`}
       />
       {list.length === 0 ? (
         <div className="flex items-center min-h-[50vh] ">

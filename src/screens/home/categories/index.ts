@@ -1,6 +1,5 @@
 export { Watch } from "./Watch";
-export { GlassesWomen } from "./GlassesWomen";
-export { GlassesMen } from "./GlassesMen";
+export { Glasses } from "./Glasses";
 export { ClothesWomen } from "./ClothesWomen";
 export { ClothesMen } from "./ClothesMen";
 export { ShoesWomen } from "./ShoesWomen";

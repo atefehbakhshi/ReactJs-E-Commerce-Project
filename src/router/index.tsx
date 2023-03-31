@@ -30,7 +30,7 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: ":category", element: <categories.Watch /> },
+                      { path: ":subcategory", element: <categories.Watch /> },
                     ],
                   },
                 ],
@@ -46,8 +46,10 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.GlassesWomen /> },
-                      { path: "men", element: <categories.GlassesMen /> },
+                      {
+                        path: ":subcategory",
+                        element: <categories.Glasses />,
+                      },
                     ],
                   },
                 ],
@@ -64,7 +66,6 @@ const router = createBrowserRouter([
                     element: <ProductsRoot />,
                     children: [
                       { path: "women", element: <categories.ShoesWomen /> },
-                      { path: "men", element: <categories.ShoesMen /> },
                     ],
                   },
                 ],
