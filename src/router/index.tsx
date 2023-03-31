@@ -117,12 +117,8 @@ const router = createBrowserRouter([
                     element: <ProductsRoot />,
                     children: [
                       {
-                        path: "necklace",
-                        element: <categories.JewelleryNecklace />,
-                      },
-                      {
-                        path: "bracelet",
-                        element: <categories.JewelleryBracelet />,
+                        path: ":subcategory",
+                        element: <categories.Jewellery />,
                       },
                     ],
                   },
