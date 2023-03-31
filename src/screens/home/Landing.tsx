@@ -1,24 +1,27 @@
 import Category from "../../components/category";
 import Adds from "../../components/adds";
 import { FadeSlider } from "../../components/slider";
+import { useEffect } from "react";
+import MostSailing from "../../components/most-sail";
 
 // slideshow
 import one from "/img/slider/shoes/1.png";
 import two from "/img/slider/perfume/1.png";
 import three from "/img/slider/watch/3.png";
-import { useEffect } from "react";
+
 const images = [one, two, three];
 
 export const Landing = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   return (
     <div>
       <FadeSlider images={images} />
+      <MostSailing />
       <main className="px-3 pb-3">
-        <h1 className="font-bold text-xl mb-4">محصولات</h1>
+        <h1 className="font-bold text-xl text-center mb-4">دسته بندی ها</h1>
         <Category
           path="/watch"
           text="ساعت"
