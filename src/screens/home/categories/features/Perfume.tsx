@@ -1,10 +1,10 @@
-import SubHeader from "../../../components/sub-header";
-import Product from "../../../components/product/Product";
 import { useEffect, useState } from "react";
-import Pagination from "../../../components/pagination";
-import { useGetDataBySubcategory } from "../../../hooks";
-import { ProductGetFromDbI } from "../../../type/interface";
 import { useParams } from "react-router-dom";
+import Pagination from "../../../../components/pagination";
+import Product from "../../../../components/product/Product";
+import SubHeader from "../../../../components/sub-header";
+import { useGetDataBySubcategory } from "../../../../hooks";
+import { ProductGetFromDbI } from "../../../../type/interface";
 
 let subcategoryNo = 9;
 

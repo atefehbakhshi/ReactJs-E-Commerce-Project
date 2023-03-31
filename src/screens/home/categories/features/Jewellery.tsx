@@ -1,20 +1,20 @@
-import SubHeader from "../../../components/sub-header";
-import Product from "../../../components/product/Product";
 import { useEffect, useState } from "react";
-import Pagination from "../../../components/pagination";
-import { useGetDataBySubcategory } from "../../../hooks";
-import { ProductGetFromDbI } from "../../../type/interface";
 import { useParams } from "react-router-dom";
+import Pagination from "../../../../components/pagination";
+import Product from "../../../../components/product/Product";
+import SubHeader from "../../../../components/sub-header";
+import { useGetDataBySubcategory } from "../../../../hooks";
+import { ProductGetFromDbI } from "../../../../type/interface";
 
-let subcategoryNo = 7;
+let subcategoryNo = 12;
 
-export const Clothes = () => {
+export const Jewellery = () => {
   const [page, setPage] = useState(1);
   const { subcategory } = useParams();
-  if (subcategory === "women") {
-    subcategoryNo = 7;
+  if (subcategory === "bracelet") {
+    subcategoryNo = 11;
   } else {
-    subcategoryNo = 8;
+    subcategoryNo = 12;
   }
   const [list, DATA_ON_PRODUCTS_PAGE, count] = useGetDataBySubcategory(
     subcategoryNo,
@@ -29,7 +29,7 @@ export const Clothes = () => {
   return (
     <div>
       <SubHeader
-        text={`${subcategory === "women" ? "Women Clothes" : "Men Clothes"}`}
+        text={`${subcategory === "bracelet" ? "Bracelet" : "Necklace"}`}
       />
       {list.length === 0 ? (
         <div className="flex items-center min-h-[50vh] ">
