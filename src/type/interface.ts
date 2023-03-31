@@ -35,6 +35,7 @@ export interface ProductParams {
   title: string;
   price: number;
   id: number | undefined;
+  quantity: number;
 }
 
 export interface BasketProductI {
