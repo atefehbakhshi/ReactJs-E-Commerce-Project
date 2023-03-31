@@ -28,7 +28,9 @@ export const Shoes = () => {
 
   return (
     <div>
-      <SubHeader text={`${subcategory === "women" ? "Women Shoes" : "Men Shoes"}`} />
+      <SubHeader
+        text={`${subcategory === "women" ? "Women Shoes" : "Men Shoes"}`}
+      />
       {list.length === 0 ? (
         <div className="flex items-center min-h-[50vh] ">
           <span className="loader"></span>
@@ -42,6 +44,7 @@ export const Shoes = () => {
               title={product.name}
               price={product.price}
               id={product.id}
+              quantity={product.quantity}
             />
           ))}
         </div>

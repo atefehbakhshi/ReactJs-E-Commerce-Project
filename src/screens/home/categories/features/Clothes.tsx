@@ -44,6 +44,7 @@ export const Clothes = () => {
               title={product.name}
               price={product.price}
               id={product.id}
+              quantity={product.quantity}
             />
           ))}
         </div>
