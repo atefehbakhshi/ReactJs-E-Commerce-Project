@@ -4,10 +4,18 @@ import { useEffect, useState } from "react";
 import Pagination from "../../../components/pagination";
 import { useGetDataBySubcategory } from "../../../hooks";
 import { ProductGetFromDbI } from "../../../type/interface";
+import { useParams } from "react-router-dom";
 
-const subcategoryNo = 7;
-export const ClothesWomen = () => {
+let subcategoryNo = 7;
+
+export const Clothes = () => {
   const [page, setPage] = useState(1);
+  const { subcategory } = useParams();
+  if (subcategory === "women") {
+    subcategoryNo = 7;
+  } else {
+    subcategoryNo = 8;
+  }
   const [list, DATA_ON_PRODUCTS_PAGE, count] = useGetDataBySubcategory(
     subcategoryNo,
     page
@@ -20,7 +28,9 @@ export const ClothesWomen = () => {
 
   return (
     <div>
-      <SubHeader text="Women Clothes" />
+      <SubHeader
+        text={`${subcategory === "women" ? "Women Clothes" : "Men Clothes"}`}
+      />
       {list.length === 0 ? (
         <div className="flex items-center min-h-[50vh] ">
           <span className="loader"></span>
