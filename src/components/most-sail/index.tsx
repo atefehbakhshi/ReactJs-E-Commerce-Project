@@ -43,8 +43,7 @@ const MostSailing = () => {
   return (
     <div className="px-3 py-8">
       <h1 className="font-bold text-xl text-center mb-4">پر فروش ترین ها</h1>
-
-      <div className="flex gap-4 overflow-x-scroll most-sail 2xl:justify-center">
+      <div className="flex gap-4 border-t-2 pt-8 overflow-x-scroll most-sail 2xl:justify-center">
         {topSailList.map((item) => (
           <Link
             to={item.path}
