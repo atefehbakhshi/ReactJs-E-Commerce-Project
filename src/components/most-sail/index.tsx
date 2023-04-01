@@ -46,6 +46,7 @@ const MostSailing = () => {
       <div className="flex gap-4 border-t-2 pt-8 overflow-x-scroll most-sail 2xl:justify-center">
         {topSailList.map((item) => (
           <Link
+            key={item.path}
             to={item.path}
             className="flex flex-col items-center gap-2 border-2 p-3 rounded min-w-[10rem] md:min-w-[15rem] max-w-[15rem]"
           >
