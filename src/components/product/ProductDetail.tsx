@@ -5,15 +5,12 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchDataById } from "../../api/services";
 import { addOrderProduct } from "../../store/slices/order-slice";
-import {
-  BasketProductI,
-  OrderProductI,
-  ProductGetFromDbI,
-} from "../../type/interface";
+import { BasketProductI, ProductGetFromDbI } from "../../type/interface";
 import { RootState } from "../../type/type";
 import { Button } from "../buttons";
 import { categoryText, subcategoryText } from "../constants";
 import { SlideSlider } from "../slider";
+import ProductCamment from "./ProductCamment";
 
 const getData = async (id: number) => {
   const res = await fetchDataById(id);
@@ -134,10 +131,17 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: product[0].description }}
-          ></div>
+          <div>
+            <h1 className="text-[#5c5c5c] text-lg font-semibold pb-2">
+              مشخصات محصول
+            </h1>
+            <div
+              className="content"
+              dangerouslySetInnerHTML={{ __html: product[0].description }}
+            ></div>
+          </div>
+          <hr className="border-t-2 my-8" />
+          <ProductCamment id={product[0].id} />
         </div>
       )}
     </>
