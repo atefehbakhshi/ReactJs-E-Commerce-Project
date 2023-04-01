@@ -171,3 +171,12 @@ export interface DataI {
   fri: OrderI[];
   sat: OrderI[];
 }
+
+// comments
+export interface CommentsI {
+  userName: string;
+  stars: number;
+  comment: string;
+  recommend: boolean;
+  id: number;
+}
