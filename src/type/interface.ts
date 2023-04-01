@@ -45,6 +45,7 @@ export interface BasketProductI {
   limitCount: number;
   name: string;
   price: number;
+  size?: number;
 }
 
 // pagination
@@ -109,6 +110,7 @@ export interface ProductGetFromDbI extends ProductI {
   createdAt: number;
   id: number;
   subcategory: number;
+  size?: number[];
 }
 
 export interface ProductSendToDbI extends ProductI {
@@ -131,6 +133,7 @@ export interface OrderProductI {
   price: number;
   image: string;
   limitCount?: number;
+  size?: number;
 }
 
 export interface OrderI {
