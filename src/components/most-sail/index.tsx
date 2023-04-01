@@ -48,7 +48,7 @@ const MostSailing = () => {
         {topSailList.map((item) => (
           <Link
             to={item.path}
-            className="flex flex-col items-center gap-2 border-2 p-3 rounded min-w-[15rem] max-w-[15rem]"
+            className="flex flex-col items-center gap-2 border-2 p-3 rounded min-w-[10rem] md:min-w-[15rem] max-w-[15rem]"
           >
             <img src={item.image} alt={item.text} className="rounded-lg " />
             <p className="text-base font-bold">{item.text}</p>
