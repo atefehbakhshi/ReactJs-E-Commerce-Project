@@ -5,6 +5,7 @@ import { RootState } from "../../../type/type";
 import {
   AddComment,
   AddEditProduct,
+  DeleteFromBasket,
   DeleteProduct,
   OrdersInfo,
 } from "../index";
@@ -29,6 +30,11 @@ const modalList = [
     id: "addComment",
     header: "اضافه کردن دیدگاه",
     fn: () => <AddComment />,
+  },
+  {
+    id: "deleteFromBasket",
+    header: "حذف محصول ؟",
+    fn: () => <DeleteFromBasket />,
   },
 ];
 
