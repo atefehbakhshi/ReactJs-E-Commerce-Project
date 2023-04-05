@@ -55,6 +55,7 @@ const Category: FC<CategoryI> = ({ path, text, icon, id, landing }) => {
               title={product.name}
               price={product.price}
               id={product.id}
+              quantity={product.quantity}
             />
           ))}
         </div>

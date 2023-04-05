@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { fetchUserDataById, editUserDataById } from "../../../api/services";
 import { getOrdersList } from "../../../store/actions/data-actions";
 import { setShowModal } from "../../../store/slices/modal-slice";
@@ -16,17 +17,20 @@ const getData = async (id: number) => {
 export const OrdersInfo = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [userInfo, setUserInfo] = useState<OrderI | null>(null);
-  const { tempId } = useSelector((state:RootState) => state.modal);
+  const { tempId } = useSelector((state: RootState) => state.modal);
 
   useEffect(() => {
     getData(tempId).then((res) => setUserInfo(res[0]));
   }, []);
 
-  const deliverdData = () => {
+  const deliverdData = async () => {
     if (userInfo) {
       const editedData = userInfo;
       editedData.delivered = true;
-      editUserDataById(tempId, editedData);
+      const res = await editUserDataById(tempId, editedData);
+      if (res.status === 200) {
+        toast.success("سفارش محصول تحویل شد.");
+      }
       dispatch(setShowModal(false));
     }
 

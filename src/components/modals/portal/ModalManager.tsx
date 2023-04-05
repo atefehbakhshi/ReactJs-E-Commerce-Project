@@ -2,7 +2,13 @@ import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../../../store/slices/modal-slice";
 import { RootState } from "../../../type/type";
-import { AddEditProduct, DeleteProduct, OrdersInfo } from "../index";
+import {
+  AddComment,
+  AddEditProduct,
+  DeleteFromBasket,
+  DeleteProduct,
+  OrdersInfo,
+} from "../index";
 
 const modalList = [
   {
@@ -19,6 +25,16 @@ const modalList = [
     id: "deleteModal",
     header: "حذف محصول ؟",
     fn: () => <DeleteProduct />,
+  },
+  {
+    id: "addComment",
+    header: "اضافه کردن دیدگاه",
+    fn: () => <AddComment />,
+  },
+  {
+    id: "deleteFromBasket",
+    header: "حذف محصول ؟",
+    fn: () => <DeleteFromBasket />,
   },
 ];
 

@@ -15,7 +15,11 @@ const router = createBrowserRouter([
       {
         path: "products",
         children: [
-          { path: ":productId", element: <home.Product /> },
+          {
+            index: true,
+            element: <home.Products />,
+          },
+          { path: ":productId", element: <home.ProductDetailP /> },
           {
             path: "",
             children: [
@@ -30,8 +34,7 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.WatchWomen /> },
-                      { path: "men", element: <categories.WatchMen /> },
+                      { path: ":subcategory", element: <categories.Watch /> },
                     ],
                   },
                 ],
@@ -47,8 +50,10 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.GlassesWomen /> },
-                      { path: "men", element: <categories.GlassesMen /> },
+                      {
+                        path: ":subcategory",
+                        element: <categories.Glasses />,
+                      },
                     ],
                   },
                 ],
@@ -64,8 +69,7 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.ShoesWomen /> },
-                      { path: "men", element: <categories.ShoesMen /> },
+                      { path: ":subcategory", element: <categories.Shoes /> },
                     ],
                   },
                 ],
@@ -81,8 +85,10 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.ClothesWomen /> },
-                      { path: "men", element: <categories.ClothesMen /> },
+                      {
+                        path: ":subcategory",
+                        element: <categories.Clothes />,
+                      },
                     ],
                   },
                 ],
@@ -98,8 +104,7 @@ const router = createBrowserRouter([
                     path: "",
                     element: <ProductsRoot />,
                     children: [
-                      { path: "women", element: <categories.PerfumeWomen /> },
-                      { path: "men", element: <categories.PerfumeMen /> },
+                      { path: ":subcategory", element: <categories.Perfume /> },
                     ],
                   },
                 ],
@@ -116,12 +121,8 @@ const router = createBrowserRouter([
                     element: <ProductsRoot />,
                     children: [
                       {
-                        path: "necklace",
-                        element: <categories.JewelleryNecklace />,
-                      },
-                      {
-                        path: "bracelet",
-                        element: <categories.JewelleryBracelet />,
+                        path: ":subcategory",
+                        element: <categories.Jewellery />,
                       },
                     ],
                   },

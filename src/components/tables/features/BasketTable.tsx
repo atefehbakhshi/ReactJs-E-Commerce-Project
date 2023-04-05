@@ -2,6 +2,11 @@ import { Icon } from "@iconify/react";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import {
+  getId,
+  setModalName,
+  setShowModal,
+} from "../../../store/slices/modal-slice";
 import { addOrderProduct } from "../../../store/slices/order-slice";
 import { BasketTableI, OrderProductI } from "../../../type/interface";
 
@@ -16,7 +21,7 @@ export const BasketTable: FC<BasketTableI> = ({ selectedList, location }) => {
     let editProduct;
     if (text === "minus") {
       if (product.count === 1) {
-        newList.splice(index, 1);
+        toast.warn("برای حذف کامل لطفا بر روی دکمه حذف کلیک کنید .");
       } else {
         editProduct = { ...product, count: +(product.count - 1) };
         newList.splice(index, 1, editProduct);
@@ -34,10 +39,9 @@ export const BasketTable: FC<BasketTableI> = ({ selectedList, location }) => {
   };
 
   const deleteHandler = (id: number) => {
-    const newList = selectedList.filter(
-      (item: OrderProductI) => item.id !== id
-    );
-    dispatch(addOrderProduct(newList));
+    dispatch(setShowModal(true));
+    dispatch(setModalName("deleteFromBasket"));
+    dispatch(getId(id));
   };
 
   return (

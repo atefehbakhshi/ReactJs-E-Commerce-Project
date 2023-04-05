@@ -80,3 +80,7 @@ export const fetchOrdersDataForCharts = () => instance.get(`/orders`);
 // get user data by id
 export const fetchUserDataById = (id: number) =>
   instance.get(`/orders?id=${id}`);
+
+// get camments of product by id
+export const fetchCommentsById = (id: number) =>
+  instance.get(`/comments?id=${id}`);

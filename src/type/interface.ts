@@ -35,6 +35,7 @@ export interface ProductParams {
   title: string;
   price: number;
   id: number | undefined;
+  quantity: number;
 }
 
 export interface BasketProductI {
@@ -44,6 +45,7 @@ export interface BasketProductI {
   limitCount: number;
   name: string;
   price: number;
+  size?: number;
 }
 
 // pagination
@@ -108,6 +110,7 @@ export interface ProductGetFromDbI extends ProductI {
   createdAt: number;
   id: number;
   subcategory: number;
+  size?: number[];
 }
 
 export interface ProductSendToDbI extends ProductI {
@@ -130,6 +133,7 @@ export interface OrderProductI {
   price: number;
   image: string;
   limitCount?: number;
+  size?: number;
 }
 
 export interface OrderI {
@@ -166,4 +170,13 @@ export interface DataI {
   tue: OrderI[];
   fri: OrderI[];
   sat: OrderI[];
+}
+
+// comments
+export interface CommentsI {
+  userName: string;
+  stars: number;
+  comment: string;
+  recommend: boolean;
+  id: number;
 }

@@ -49,7 +49,6 @@ instance.interceptors.response.use(
 
         return instance(config);
       }
-
       sent = true;
       localStorage.removeItem("token");
 
@@ -62,8 +61,10 @@ instance.interceptors.response.use(
         window.location.reload();
       });
     } else if (config.url === "/auth/refresh-token") {
-      localStorage.removeItem("refresh_token");
-      window.location.href = "/admin/login";
+      if (window.location.href.includes("admin")) {
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/admin/login";
+      }
     } else if (status === 404 || status === 500) {
       window.location.href = "/error";
     } else {

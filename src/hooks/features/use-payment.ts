@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { addOrder, editQuantity } from "../../api/services";
+import { addOrder, editPriceQuantity } from "../../api/services";
 
 const paymentSchema = yup.object({
   cartNumber: yup
@@ -58,17 +58,18 @@ export const usePayment = () => {
 
     try {
       const res = await addOrder(newOrder);
+      const id = res.data.id;
       if (res.status === 201) {
         // edit quantity of products in store
         const res = await Promise.all(
           products.map((i) => {
-            editQuantity(i.id, { quantity: i.limitCount - i.count });
+            editPriceQuantity(i.id, { quantity: i.limitCount - i.count });
           })
         );
 
         // remove order from local storage
         localStorage.removeItem("order");
-        window.location.href = "/payment-result/success";
+        window.location.href = `/payment-result/success:order-code-${id}`;
       }
     } catch (ex) {
       window.location.href = "/payment-result/failure";

@@ -10,6 +10,7 @@ import { RootState } from "../../type/type";
 import { Button } from "../buttons";
 import { categoryText, subcategoryText } from "../constants";
 import { SlideSlider } from "../slider";
+import ProductCamment from "./ProductCamment";
 
 const getData = async (id: number) => {
   const res = await fetchDataById(id);
@@ -37,20 +38,31 @@ const ProductDetail = () => {
     }
   }, [count]);
 
+  const [size, setSize] = useState<null | number>(null);
+
   const addToBasket = (product: ProductGetFromDbI) => {
-    const newOrderList:BasketProductI[] = list.filter(
+    const newOrderList: BasketProductI[] = list.filter(
       (i: BasketProductI) => i.id !== product.id
     );
-    const order = {
-      id: product.id,
-      name: product.name,
-      count: count,
-      price: product.price,
-      image: product.thumbnail,
-      limitCount: product.quantity,
-    };
-    newOrderList.push(order);
-    dispatch(addOrderProduct(newOrderList));
+
+    if (product.size && !size) {
+      toast.warn("لطفا سایز مورد نظر را انتخاب کنید .");
+    } else {
+      let order: BasketProductI = {
+        id: product.id,
+        name: product.name,
+        count: count,
+        price: product.price,
+        image: product.thumbnail,
+        limitCount: product.quantity,
+      };
+
+      if (product.size && size) {
+        order = { ...order, size: size };
+      }
+      newOrderList.push(order);
+      dispatch(addOrderProduct(newOrderList));
+    }
   };
 
   return (
@@ -69,7 +81,21 @@ const ProductDetail = () => {
               <p className="mb-4">
                 {product[0].price?.toLocaleString("fa")} هزار تومان
               </p>
-              <div>{/* size and color */}</div>
+              {product[0].size && (
+                <div className="flex flex-row-reverse items-center justify-end gap-2 py-2 mb-4">
+                  {product[0].size.map((item) => (
+                    <p
+                      className={`border border-[#c4c4c4] py-1 w-[2.5rem] h-[2rem] text-center cursor-pointer ${
+                        size === item && "bg-gray-900 text-white"
+                      }`}
+                      key={item}
+                      onClick={() => setSize(item)}
+                    >
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              )}
               <div className="flex items-center gap-4">
                 <div className="flex justify-between p-1 items-center border rounded">
                   <Icon
@@ -92,8 +118,10 @@ const ProductDetail = () => {
                   <p className="text-red-500 text-base">اتمام موجودی</p>
                 ) : (
                   <Button
-                    bg="bg-[#ade5ad]"
-                    hover="hover:bg-[#bdeabd]"
+                    bg={`${count === 0 ? "" : "bg-[#ade5ad]"}`}
+                    hover={`${
+                      count === 0 ? "hover:bg-gray-200" : "hover:bg-[#bdeabd]"
+                    }`}
                     onClick={() => addToBasket(product[0])}
                     disabled={count === 0 ? true : false}
                   >
@@ -103,10 +131,17 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: product[0].description }}
-          ></div>
+          <div>
+            <h1 className="text-[#5c5c5c] text-lg font-semibold pb-2">
+              مشخصات محصول
+            </h1>
+            <div
+              className="content"
+              dangerouslySetInnerHTML={{ __html: product[0].description }}
+            ></div>
+          </div>
+          <hr className="border-t-2 my-8" />
+          <ProductCamment id={product[0].id} />
         </div>
       )}
     </>
