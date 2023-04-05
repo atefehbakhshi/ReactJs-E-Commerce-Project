@@ -58,6 +58,7 @@ export const usePayment = () => {
 
     try {
       const res = await addOrder(newOrder);
+      const id = res.data.id;
       if (res.status === 201) {
         // edit quantity of products in store
         const res = await Promise.all(
@@ -68,7 +69,7 @@ export const usePayment = () => {
 
         // remove order from local storage
         localStorage.removeItem("order");
-        window.location.href = "/payment-result/success";
+        window.location.href = `/payment-result/success:order-code-${id}`;
       }
     } catch (ex) {
       window.location.href = "/payment-result/failure";
