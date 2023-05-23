@@ -39,9 +39,9 @@ export const Checkout = () => {
     if (hasDate) {
       const selectedDate = shamsi
         .jalaliToGregorian(
-          +value.persian.split("/")[0],
-          +value.persian.split("/")[1],
-          +value.persian.split("/")[2]
+          Number(value.persian?.split("/")[0]),
+          Number(value.persian?.split("/")[1]),
+          Number(value.persian?.split("/")[2])
         )
         .join("/");
       if (new Date(`${selectedDate}`).getTime() > Date.now()) {
